@@ -23,6 +23,9 @@ Use the following commands to install from source::
 
 You would need to install git, pip, and python3 to install and run correctly.
 
+  `pip install coursera_autograder` is coming soon.
+
+
 If you have used the `pip install` workflow previously to install `coursera_autograder`, we recommend using this flow to update your `coursera_autograder` version.
 
 If you would like to separate your build environments, we recommend installing `coursera_autograder` within a virtual environment.
@@ -50,20 +53,16 @@ information.
 Subcommands
 -----------
 
-grade
-^^^^^
+grade local
+^^^^^^^^^^^
 
-This grade subcommand loosely replicates the production grading environment on
-your local machine, including applying CPU and memory limits, running as the
-correct user id, mounting the external file systems correctly, and relinquishing
-the appropriate extra linux capabilities. Note that because the GrID system has
+This ``grade local`` subcommand loosely replicates the production grading environment on
+your local machine. Note that because the GrID system has
 adopted a defense-in-depth or layered defensive posture, not all layers of the
 production environment can be faithfully replicated locally.
 
-The grade subcommand has 2 sub-sub-commands. ``local`` runs a local grader
-container image on a sample submission found on the local file system. The
-future ``remote`` sub-sub-command will run a local grader container image on a
-sample submission downloaded from Coursera.org. This sub-sub-command is intended
+``grade local`` runs a local grader
+container image on a sample submission on the local file system, provided as part of the command. This command is intended
 to help instructional teams verify new versions of their graders correctly
 handle problematic submissions.
 
@@ -73,7 +72,7 @@ Examples:
    invokes the grader passing in the sample submission into the grader.
  - $ENV_VAR_JSON is a json string like'{"filename": "Factoring.java", "partId": "Zb6wb"}',
    where filename is the name of the file the grader is going to grade 
-   and part id is the programming assignment part id
+   and part id is the programming assignment part id.
  - ``coursera_autograder grade local --help`` displays the full list of
    flags and options available.
 
@@ -110,6 +109,16 @@ timeout are all customizable.
  - ``--grader-memory-limit`` takes a value between 2048 to 16384, increnment of 1024. representing the
    amount of memory in MB the grader will have access to when grading. The
    default is 2048.
+   
+   Not all combinations of cpu and memory are supported. The supported combinations is listed here:
+   
+   - For 1024 (1 vCPU), Memory needs to be between 2048 (2GB) and 8192 (8GB) in increments of 1024 (1GB).
+   
+   - For 2048 (2 vCPU), Memory needs to be between 4096 (4GB) and 16384 (16GB) in increments of 1024 (1GB).
+   
+   - For 4096 (4 vCPU), Memory needs to be between 8192 (8GB) and 16384 (16GB) in increments of 1024 (1GB)
+
+
  - ``--grading-timeout`` takes a value between 300 and 1800, representing the
    amount of time the grader is allowed to run before it times out. Note this
    value is counted from the moment the grader starts execution and does not
@@ -126,8 +135,7 @@ Examples:
    --additional_item_and_part $ITEM_ID2 $PART_ID2 $ITEM_ID3 $PART_ID3`` uploads
    the specified graded container image to Coursera, begins the post-upload procesing,
    and associates the new grader with all the three item_id part_id pairs.
-   Navigate to the course authoring UI for each item, or use the `publish` command with
-   ``--additional-items`` flag to publish the draft to make it live.
+   Navigate to the course authoring UI for each item to publish the draft to make it live.
  - ``coursera_autograder upload --help`` displays all available options
    for the :code:`upload` subcommand.
 
