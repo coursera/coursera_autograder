@@ -75,6 +75,7 @@ Examples:
    and part id is the programming assignment part id.
  - ``coursera_autograder grade local --help`` displays the full list of
    flags and options available.
+ - ``coursera_autograder grade local python_grader ~/Desktop/programming-assignments-demo/custom-graders/v2/DemoPythonGrader/autograder/solutions '{"partId": "5ShhY", "fileName": "flipSign.py"}' --dst-dir ~/Desktop``
 
 upload
 ^^^^^^
@@ -138,6 +139,8 @@ Examples:
    Navigate to the course authoring UI for each item to publish the draft to make it live.
  - ``coursera_autograder upload --help`` displays all available options
    for the :code:`upload` subcommand.
+ - ``zip -r PythonGrader.zip .`` (Make sure you are in the directory containing the Dockerfile. This must be the top level directory)
+ - ``coursera_autograder upload ./PythonGrader.zip iRl53_BWEeW4_wr--Yv6Aw rLa7F Zb6wb``
 
 
 Bugs / Issues / Feature Requests
