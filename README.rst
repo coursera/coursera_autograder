@@ -75,7 +75,7 @@ Examples:
    and part id is the programming assignment part id.
  - ``coursera_autograder grade local --help`` displays the full list of
    flags and options available.
- - ``coursera_autograder grade local python_grader ~/Desktop/programming-assignments-demo/custom-graders/v2/DemoPythonGrader/autograder/solutions '{"partId": "5ShhY", "fileName": "flipSign.py"}' --dst-dir ~/Desktop``
+ - ``coursera_autograder grade local python_grader ~/Desktop/programming-assignments-demo/custom-graders/v2/DemoPythonGrader/autograder/solutions '{"partId": "5ShhY", "filename": "flipSign.py"}' --dst-dir ~/Desktop``
 
 upload
 ^^^^^^
