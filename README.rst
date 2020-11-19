@@ -70,9 +70,7 @@ Examples:
  - ``coursera_autograder grade local $MY_CONTAINER_IMAGE_TAG
    /path/to/sample/submission/ $ENV_VAR_JSON --dst-dir ~/Desktop``
    invokes the grader passing in the sample submission into the grader.
- - $ENV_VAR_JSON is a json string like'{"filename": "Factoring.java", "partId": "Zb6wb"}',
-   where filename is the name of the file the grader is going to grade 
-   and part id is the programming assignment part id.
+ - $ENV_VAR_JSON is a json string like'{"partId": "Zb6wb"}',
  - ``coursera_autograder grade local --help`` displays the full list of
    flags and options available.
  - ``coursera_autograder grade local python_grader ./submission '{"partId": "5ShhY"}' --dst-dir ~/Desktop``
