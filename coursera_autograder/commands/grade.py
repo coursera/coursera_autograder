@@ -84,7 +84,7 @@ def run_container(docker, container, args):
     error_in_grader_output = False
     try:
         json_file = open(path.join(args.dst_dir, 'feedback.json'), 'r')
-        parsed_output = json.loads(json_file)
+        parsed_output = json.load(json_file)
         json_file.close()
     except ValueError:
         logging.error("The output was not a valid JSON document.")
