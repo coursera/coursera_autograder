@@ -306,15 +306,12 @@ def register_grader(auth, args, bucket, key):
 
     try:
         grader_id = register_result.json()['elements'][0]['id'].split("~")[-1]
-        location = register_result.headers['location']
     except:
         logging.exception(
             'Could not parse the response from the Coursera register grader '
             'endpoint: %s',
             register_result.text)
         raise Exception('Cannot parse response')
-
-    logging.info('The grader status API is at: %s', location)
 
     return grader_id
 
@@ -343,7 +340,7 @@ def update_assignment(auth, grader_id, args, item, part):
     logging.info('Successfully updated assignment part %s to new executor %s',
                  part,
                  grader_id)
-    logging.info('Please refresh the item page at Coursera to see the change')
+    logging.info('Please go to the item page and select your grader.')
     return 0
 
 
@@ -421,12 +418,12 @@ def setup_registration_parser(parser):
     parser.add_argument(
         '--grader-memory-limit',
         type=int,
-        choices=list(range(2048, 16384, 1024)),
-        default = 2048,
+        choices=list(range(4096, 16384, 1024)),
+        default = 4096,
         help='Amount of memory your grader is allocated when grading '
              'submissions. Amount of memory you can request for 1 CPU is '
-             'between 2048 MB to 8192 MB. For 2 CPUs is between 4096 MB to 16384 MB.'
-             ' For 4 CPUs is between 8192 MB to 16384 MB. The default amount is 2048 MB.')
+             'between 4096 MB to 8192 MB. For 2 CPUs is between 4096 MB to 16384 MB.'
+             ' For 4 CPUs is between 8192 MB to 16384 MB. The default amount is 4096 MB.')
 
     parser.add_argument(
         '--grading-timeout',
