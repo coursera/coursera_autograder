@@ -418,7 +418,7 @@ def setup_registration_parser(parser):
     parser.add_argument(
         '--grader-memory-limit',
         type=int,
-        choices=list(range(2048, 16384, 1024)),
+        choices=list(range(4096, 16384, 1024)),
         default = 4096,
         help='Amount of memory your grader is allocated when grading '
              'submissions. Amount of memory you can request for 1 CPU is '
