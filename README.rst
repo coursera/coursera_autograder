@@ -109,7 +109,7 @@ timeout are all customizable.
    the grader will have access to when grading. The default is 1.
  - ``--grader-memory-limit`` takes a value between 2048 to 16384, increnment of 1024. representing the
    amount of memory in MB the grader will have access to when grading. The
-   default is 2048.
+   default is 4096 (4GB).
    
    Not all combinations of cpu and memory are supported. The supported combinations is listed here:
    
