@@ -422,7 +422,7 @@ def setup_registration_parser(parser):
         default = 4096,
         help='Amount of memory your grader is allocated when grading '
              'submissions. Amount of memory you can request for 1 CPU is '
-             'between 2048 MB to 8192 MB. For 2 CPUs is between 4096 MB to 16384 MB.'
+             'between 4096 MB to 8192 MB. For 2 CPUs is between 4096 MB to 16384 MB.'
              ' For 4 CPUs is between 8192 MB to 16384 MB. The default amount is 4096 MB.')
 
     parser.add_argument(
