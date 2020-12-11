@@ -70,12 +70,17 @@ Examples:
  - ``coursera_autograder grade local $MY_CONTAINER_IMAGE_TAG
    /path/to/sample/submission/ $ENV_VAR_JSON --dst-dir ~/Desktop``
    invokes the grader passing in the sample submission into the grader.
- - $ENV_VAR_JSON is a json string like'{"filename": "Factoring.java", "partId": "Zb6wb"}',
-   where filename is the name of the file the grader is going to grade 
-   and part id is the programming assignment part id.
+ - When the grade local is successful, you can verify that feedback.json is produced in dst-dir (in this case it is ~/Desktop).
+ - $ENV_VAR_JSON is a json string like'{"partId": "Zb6wb"}',
  - ``coursera_autograder grade local --help`` displays the full list of
    flags and options available.
- - ``coursera_autograder grade local python_grader ~/Desktop/programming-assignments-demo/custom-graders/v2/DemoPythonGrader/autograder/solutions '{"partId": "5ShhY", "filename": "flipSign.py"}' --dst-dir ~/Desktop``
+ - ``coursera_autograder grade local python_grader ./submission '{"partId": "5ShhY"}' --dst-dir ~/Desktop``
+ - Please make sure there is only the correct solution file in the submission directory (./submission).
+ 
+The `$ENV_VAR_JSON` string could also supply these optional environment variables that are normally set on Coursera's production system:
+
+- `filename` - The "suggested filename" that the submission is renamed as after the user submits it.
+- `userId` - a unique string Coursera can use to disambiguate learners.
 
 upload
 ^^^^^^
