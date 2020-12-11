@@ -77,10 +77,10 @@ Examples:
  - ``coursera_autograder grade local python_grader ./submission '{"partId": "5ShhY"}' --dst-dir ~/Desktop``
  - Please make sure there is only the correct solution file in the submission directory (./submission).
  
-The `$ENV_VAR_JSON` string could also supply these optional environment variables that are normally set on Coursera's production system:
+In contrast to this local tester, Coursera's production system will also set these environment variables for internal purposes. In local testing, it is possible to specify these as well with the environment variable JSON, although it's completely up to the grading Docker you create to use them or not. In typical usage, you would not set or read these variables.
 
-- `filename` - The "suggested filename" that the submission is renamed as after the user submits it.
-- `userId` - a unique string Coursera can use to disambiguate learners.
+- `filename` - The original filename of the file the student has chosen to submit, prior to being renamed on the server automatically. To avoid confusion, note that the `grade local` command takes a directory path, not a file path; the directory should contain a submission file with the same filename as the "suggested filename" you've configured for the assignment as published on Coursera's UI, and your autograder should also look for the file with the "suggested filename." The `filename` environment variable *does not* specify the "suggested filename". Also, autograders live in production will find the submitted file has already been renamed, so the `filename` env var does not have much usefulness inside the grader. One use case might be to display a warning to learners if the file they chose to submit does not have the correct file extension prior to being automatically renamed.
+- `userId` - a unique string Coursera uses to disambiguate learners.
 
 upload
 ^^^^^^
