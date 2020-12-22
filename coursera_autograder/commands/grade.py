@@ -243,4 +243,8 @@ def parser(subparsers):
     parser_grade_local.add_argument(
         'envVar',
         help='Environment variable that passed into the container')
+    parser_grade_local.add_argument(
+        'args',
+        nargs=argparse.REMAINDER,
+        help='Arguments to the docker executable')
     return parser_grade
