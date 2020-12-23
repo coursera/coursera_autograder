@@ -151,8 +151,7 @@ Examples:
 Bugs / Issues / Feature Requests
 --------------------------------
 
-Please use the github issue tracker to document any bugs or other issues you
-encounter while using this tool.
+Please reach out to your partner support teams to file an enhancement request or report a bug. While we check in on the issues logged on this repository from time to time, reaching out to your partner support teams will likely provide you with a faster response. We appreciate your support and dedication to improving this tool for all Coursera partners!
 
 Supported Platforms
 ^^^^^^^^^^^^^^^^^^^
