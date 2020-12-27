@@ -167,28 +167,11 @@ def command_grade_local(args):
                 memswap_limit=memory_limit,
             )
 
-        if 'args' in args and len(args.args) > 0:
-            # Handle additional command-line arguments which will
-            # be passed to the grader.
-            inspect = d.inspect_image(image=args.containerTag)
-            cmd = inspect['Config']['Entrypoint']
-            if not type(cmd) is list:
-                logging.error('ENTRYPOINT in Dockerfile must be a list in ' +
-                              'order to pass in command-line arguments')
-                raise
-            cmd.extend(args.args)
-            container = d.create_container(
-                image=args.containerTag,
-                entrypoint=cmd,
-                host_config=host_config,
-                environment= environment_variable
-            )
-        else:
-            container = d.create_container(
-                image=args.containerTag,
-                host_config=host_config,
-                environment= environment_variable
-            )
+        container = d.create_container(
+            image=args.containerTag,
+            host_config=host_config,
+            environment= environment_variable
+        )
     except:
         logging.error(
             "Could not set up the container to run the grade command in. Most "
