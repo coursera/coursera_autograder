@@ -132,7 +132,7 @@ def _make_handler(state_token, done_function):
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
             self.wfile.write(
-                ("courseraprogramming: we have captured Coursera's response "
+                ("coursera_autograder: we have captured Coursera's response "
                  "code. Feel free to close this browser window now and return "
                  "to your terminal. Thanks!").encode("utf-8"))
             done_function(params['code'][0])
