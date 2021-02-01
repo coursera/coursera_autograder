@@ -2,7 +2,8 @@
 
 __all__ = [
     "upload",
-    "grade"
+    "grade",
+    "config"
 ]
 
 from . import *  # noqa
