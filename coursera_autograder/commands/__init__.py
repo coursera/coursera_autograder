@@ -1,4 +1,4 @@
-"Commands and their implementations for the courseraprogramming sdk."
+"Commands and their implementations for the coursera_autograder sdk."
 
 __all__ = [
     "upload",

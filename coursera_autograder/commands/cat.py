@@ -20,8 +20,8 @@ Coursera's asynchronous grader command line SDK.
 You may install it from source, or via pip.
 """
 
-from courseraprogramming.commands import common
-from courseraprogramming import utils
+from coursera_autograder.commands import common
+from coursera_autograder import utils
 import logging
 import sys
 
@@ -41,7 +41,8 @@ def command_cat(args):
             "id.")
         raise
     d.start(container)
-    exit_code = d.wait(container, timeout=2)
+    # https://docker-py.readthedocs.io/en/stable/api.html#docker.api.container.ContainerApiMixin.wait
+    exit_code = d.wait(container, timeout=2)['StatusCode']
     if exit_code != 0:
         logging.warn("The cat command did not exit cleanly within the "
                      "container. Exit code: %s", exit_code)

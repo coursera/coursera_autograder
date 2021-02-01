@@ -49,7 +49,8 @@ def run_container(docker, container, args):
     "Runs the prepared container (and therefore grader), checking the output"
     docker.start(container)
     try:
-        exit_code = docker.wait(container, timeout=args.timeout)
+        # https://docker-py.readthedocs.io/en/stable/api.html#docker.api.container.ContainerApiMixin.wait
+        exit_code = docker.wait(container, timeout=args.timeout)['StatusCode']
         get_feedback(docker, container, "feedback.json", args.dst_dir)
     except ReadTimeout:
         logging.error("The grader did not complete within the required "

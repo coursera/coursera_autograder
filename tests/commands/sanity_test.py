@@ -15,8 +15,8 @@
 # limitations under the License.
 
 import argparse
-from courseraprogramming import main
-from courseraprogramming.commands import sanity
+from coursera_autograder import main
+from coursera_autograder.commands import sanity
 from mock import mock_open, patch
 from testfixtures import LogCapture
 

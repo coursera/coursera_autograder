@@ -21,7 +21,7 @@ You may install it from source, or via pip.
 """
 
 from dockerfile_parse import DockerfileParser
-from courseraprogramming import utils
+from coursera_autograder import utils
 import logging
 import semver
 

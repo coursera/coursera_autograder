@@ -14,12 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from courseraprogramming.commands.upload import register_grader
-from courseraprogramming.commands.upload import setup_registration_parser
-from courseraprogramming.commands.upload import update_assignments
-from courseraprogramming.commands import common
-from courseraprogramming.commands import oauth2
-from courseraprogramming import utils
+from coursera_autograder.commands.upload import register_grader
+from coursera_autograder.commands.upload import setup_registration_parser
+from coursera_autograder.commands.upload import update_assignments
+from coursera_autograder.commands import common
+from coursera_autograder.commands import oauth2
+from coursera_autograder import utils
 
 import json
 import logging

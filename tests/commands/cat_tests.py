@@ -16,8 +16,8 @@
 
 import argparse
 import docker
-from courseraprogramming import main
-from courseraprogramming.commands import cat
+from coursera_autograder import main
+from coursera_autograder.commands import cat
 from mock import MagicMock
 from mock import patch
 
@@ -30,10 +30,10 @@ def test_cat_parsing():
     assert args.file == ['/root/foo', 'bar', '/bar/baz']
 
 
-@patch('courseraprogramming.commands.cat.utils')
+@patch('coursera_autograder.commands.cat.utils')
 def test_ls_run(utils):
 
-    docker_mock = MagicMock(spec=docker.Client)
+    docker_mock = MagicMock(spec=docker.APIClient)
     docker_mock.create_container.return_value = {
         'Id': 'really-long-container-id-hash',
         'Warnings': None
@@ -47,7 +47,7 @@ def test_ls_run(utils):
     args.imageId = 'testImageId'
     args.file = '/grader/testCases.txt'
 
-    with patch('courseraprogramming.commands.cat.sys.stdout') as stdout:
+    with patch('coursera_autograder.commands.cat.sys.stdout') as stdout:
         # Run the command
         cat.command_cat(args)
 

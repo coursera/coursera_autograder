@@ -20,7 +20,7 @@ Coursera's asynchronous grader command line SDK.
 You may install it from source, or via pip.
 """
 
-from courseraprogramming.commands import common
+from coursera_autograder.commands import common
 import logging
 import os
 
