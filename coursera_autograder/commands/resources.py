@@ -44,8 +44,6 @@ def command_resources(args):
     course_branch_id = args.course.replace("~", "!~") if "authoringBranch" in args.course else args.course
     course_branch_item = '%s~%s' % (course_branch_id, args.item)
 
-    s.cookies.update({'ASG_PREFERENCE': '_VC5f2YRcjU7fHfPqB50Rrm28PLNtlnCQzx7MwMCH_6IaIhDGMc-r60p5ZRM2_sAi2yg4ZNAgs-9woRrluj2tw.4-KlTmrD1EWB_e2l8z6s1Q.WE24gP_rf77oztF1N3kO0rUjY9gnNa0ftqEazenTV3AqNQy1NeXbyWMaIUt24p_BEx0j8oGOJwXW22CL_2XOzRfqt8BeyTrUmIYFSm2_UhhjcbzRTuCx3xsb19wTJAQ9KCu2oReljTZpGADhv5XZpg'})
-
     params = 'id=%s&partId=%s' % (course_branch_item, args.item)
     result = s.post(args.executorInfo_endpoint, params=params)
     print('Reserved CPU (MB):', result.json()['reservedCpu'])
