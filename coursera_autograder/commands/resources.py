@@ -42,8 +42,6 @@ def command_resources(args):
     s = requests.Session()
     s.auth = auth
 
-    s.cookies.update({'ASG_PREFERENCE': 'WyqA7Q34defdrIXh2OfAx4-7TrxkU_-fStuPfq2X2fVKFKrFCRqPQ7PrJwFb4TPsfePh3Qq2RN6IhkmK94kb7g.HxAFeo56tn7jnBRxAINOUg.2CN6rem2V12w6GZ46fjxnvu9v_gbSNH7z_tclQyDG3pAGHy24oaBgoqCtcEuHiU4FIemi88AagAVcWvfGvABWjZMEJyBrZmmN4VCfdJUKfOI-8BGu1RxhdgqqEJkAWnHyGbWj0-N28a9NTYR3p2F8sM_rnDx5mowB6Gd593wQrox9QRgqu9ToOg2ny0_lOAhG5BLBmZcgrXpz0DcWSbtrQ'})
-
     course_branch_id = args.course.replace("~", "!~") if "authoringBranch" in args.course else args.course
     course_branch_item = '%s~%s' % (course_branch_id, args.item)
 
