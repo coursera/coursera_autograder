@@ -22,6 +22,7 @@ You may install it from source, or via pip.
 
 from coursera_autograder.commands import common
 from coursera_autograder.commands import oauth2
+import logging
 import requests
 import urllib.parse
 
@@ -41,14 +42,51 @@ def command_resources(args):
     s = requests.Session()
     s.auth = auth
 
+    s.cookies.update({'ASG_PREFERENCE': 'WyqA7Q34defdrIXh2OfAx4-7TrxkU_-fStuPfq2X2fVKFKrFCRqPQ7PrJwFb4TPsfePh3Qq2RN6IhkmK94kb7g.HxAFeo56tn7jnBRxAINOUg.2CN6rem2V12w6GZ46fjxnvu9v_gbSNH7z_tclQyDG3pAGHy24oaBgoqCtcEuHiU4FIemi88AagAVcWvfGvABWjZMEJyBrZmmN4VCfdJUKfOI-8BGu1RxhdgqqEJkAWnHyGbWj0-N28a9NTYR3p2F8sM_rnDx5mowB6Gd593wQrox9QRgqu9ToOg2ny0_lOAhG5BLBmZcgrXpz0DcWSbtrQ'})
+
     course_branch_id = args.course.replace("~", "!~") if "authoringBranch" in args.course else args.course
     course_branch_item = '%s~%s' % (course_branch_id, args.item)
 
-    params = 'id=%s&partId=%s' % (course_branch_item, args.item)
+    params = 'id=%s&partId=%s' % (course_branch_item, args.part)
     result = s.post(args.executorInfo_endpoint, params=params)
-    print('Reserved CPU (MB):', result.json()['reservedCpu'])
-    print('Reserved Memory (MB):', result.json()['reservedMemory'])
-    print('Wall Clock Timeout:', result.json()['wallClockTimeout'] if 'wallClockTimeout' in result.json() else 'Timeout not set - default is 1200 seconds')
+    if result.status_code == 404:
+        logging.error(
+            '\nUnable to find executor with part id %s in item %s in course %s.\n'
+            'Status Code: 404 \nURL: %s \nResponse: %s\n',
+            args.part, 
+            args.item, 
+            args.course,
+            result.url,
+            result.text)
+        return 1
+    elif result.status_code != 200:
+        logging.error(
+            '\nUnable to get executor resources.\n'
+            'CourseId: %s\n'
+            'ItemId: %s\n'
+            'PartId: %s\n'
+            'Status Code: %d \nURL: %s \nResponse: %s\n',
+            args.course,
+            args.item,
+            args.part,
+            result.status_code,
+            result.url,
+            result.text
+        )
+        return 1
+    print(
+        '\nResource Limits for executor with part id %s in item %s in course %s:\n'
+        'Reserved CPU (AWS units -- 1024 units = 1 vCPU): %s (%s)\n'
+        'Reserved Memory (MB): %s\n'
+        'Wall Clock Timeout (s): %s\n' %
+        (args.part,
+         args.item,
+         args.course,
+         result.json()['reservedCpu'],
+         int(result.json()['reservedCpu'])/1024,
+         result.json()['reservedMemory'],
+         result.json()['wallClockTimeout'] if 'wallClockTimeout' in result.json() else 'Timeout not set - default is 1200 seconds'))
+    return 0
 
 
 def setup_registration_parser(parser): 
@@ -75,7 +113,7 @@ def setup_registration_parser(parser):
 
     parser.add_argument(
         '--executorInfo-endpoint',
-        default='https://api.coursera.org/api/authoringProgrammingAssignments.v3/?action=getExecutorResources',
+        default='https://api.coursera.org/api/authoringProgrammingAssignments.v3/?action=getGraderResourceLimits',
         help='Override the endpoint used to retrieve information about a certain executor'
     )
 
