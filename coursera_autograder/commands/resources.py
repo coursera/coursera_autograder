@@ -74,8 +74,8 @@ def command_resources(args):
         return 1
     print(
         '\nResource Limits for executor with part id %s in item %s in course %s:\n'
-        'Reserved CPU (AWS units -- 1024 units = 1 vCPU): %s (%s)\n'
-        'Reserved Memory (MB): %s\n'
+        'Reserved CPU (AWS units -- 1024 units = 1 vCPU): %s (%s vCPUs)\n'
+        'Reserved Memory (MiB): %s\n'
         'Wall Clock Timeout (s): %s\n' %
         (args.part,
          args.item,
