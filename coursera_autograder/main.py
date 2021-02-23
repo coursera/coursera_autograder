@@ -56,7 +56,7 @@ def build_parser():
     # commands.cat.parser(subparsers)
 
     # create the parser for the configure subcommand. (authentication / etc.)
-    # commands.config.parser(subparsers)
+    commands.config.parser(subparsers)
 
     # create the parser for the grade subcommand.
     commands.grade.parser(subparsers)

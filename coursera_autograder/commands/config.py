@@ -20,7 +20,7 @@ Coursera's asynchronous grader command line SDK.
 You may install it from source, or via pip.
 """
 
-from courseraprogramming.commands import oauth2
+from coursera_autograder.commands import oauth2
 import requests
 import logging
 import time
@@ -29,7 +29,7 @@ import sys
 
 def check_auth(args):
     """
-    Checks courseraprogramming's connectivity to the coursera.org API servers
+    Checks coursera_autograder's connectivity to the coursera.org API servers
     """
     oauth2_instance = oauth2.build_oauth2(args)
     auth = oauth2_instance.build_authorizer()
