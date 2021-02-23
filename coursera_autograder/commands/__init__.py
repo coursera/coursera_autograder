@@ -3,7 +3,7 @@
 __all__ = [
     "upload",
     "grade",
-    "resources"
+    "resources",
     "config"
 ]
 
