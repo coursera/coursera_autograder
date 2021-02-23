@@ -46,7 +46,7 @@ def command_resources(args):
     course_branch_item = '%s~%s' % (course_branch_id, args.item)
 
     params = 'id=%s&partId=%s' % (course_branch_item, args.part)
-    result = s.post(args.executorInfo_endpoint, params=params)
+    result = s.post(args.getGraderResourceLimits_endpoint, params=params)
     if result.status_code == 404:
         logging.error(
             '\nUnable to find executor with part id %s in item %s in course %s.\n'
@@ -80,10 +80,14 @@ def command_resources(args):
         (args.part,
          args.item,
          args.course,
-         result.json()['reservedCpu'],
-         int(result.json()['reservedCpu'])/1024,
-         result.json()['reservedMemory'],
-         result.json()['wallClockTimeout'] if 'wallClockTimeout' in result.json() else 'Timeout not set - default is 1200 seconds'))
+         result.json()['reservedCpu'] if 'reservedCpu' in result.json() 
+            else 'Cpu limit not set - default is 1024 AWS units',
+         int(result.json()['reservedCpu'])/1024 if 'reservedCpu' in result.json() 
+            else '1 vCPU',
+         result.json()['reservedMemory'] if 'reservedMemory' in result.json() 
+            else 'Memory limit not set - default is 4096 MiB',
+         result.json()['wallClockTimeout'] if 'wallClockTimeout' in result.json() 
+            else 'Timeout not set - default is 1200 seconds'))
     return 0
 
 
@@ -93,7 +97,7 @@ def setup_registration_parser(parser):
 
     parser.add_argument(
         'course',
-        help='The course id to associate the grader. The course id is a '
+        help='The course id associated with the grader. The course id is a '
         'gibberish string UUID. Given a course slug such as `developer-iot`, '
         'you can retrieve the course id by querying the catalog API. e.g.: '
         'https://api.coursera.org/api/onDemandCourses.v1?q=slug&'
@@ -101,16 +105,16 @@ def setup_registration_parser(parser):
 
     parser.add_argument(
         'item',
-        help='The id of the item to associate the grader. The easiest way '
+        help='The id of the item associated with the grader. The easiest way '
         'to find the item id is by looking at the URL in the authoring web '
         'interface. It is the last part of the URL, and is a short UUID.')
 
     parser.add_argument(
         'part',
-        help='The id of the part to associate the grader.')
+        help='The id of the part associated with the grader.')
 
     parser.add_argument(
-        '--executorInfo-endpoint',
+        '--getGraderResourceLimits-endpoint',
         default='https://api.coursera.org/api/authoringProgrammingAssignments.v3/?action=getGraderResourceLimits',
         help='Override the endpoint used to retrieve information about a certain executor'
     )
@@ -122,7 +126,7 @@ def parser(subparsers):
 
     # create the parser for the resources command
     parser_resources = subparsers.add_parser(
-        'resources',
+        'get_resource_limits',
         help='Gets the current resource limits of a programming assignment \
             part (autograder).')
     parser_resources.set_defaults(func=command_resources)
