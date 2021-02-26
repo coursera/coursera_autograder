@@ -26,15 +26,8 @@ import logging
 import requests
 import urllib.parse
 
-"""
-target fields:
-  reservedCpu: int?
-  reservedMemory: int?
-  wallClockTimeout: int?
-"""
-
-def command_resources(args):
-    "Implements the resources subcommand"
+def command_get_resource_limits(args):
+    "Implements the get_resource_limits subcommand"
 
     oauth2_instance = oauth2.build_oauth2(args)
     auth = oauth2_instance.build_authorizer()
@@ -129,7 +122,12 @@ def parser(subparsers):
         'get_resource_limits',
         help='Gets the current resource limits of a programming assignment \
             part (autograder).')
-    parser_resources.set_defaults(func=command_resources)
+    parser_resources.set_defaults(func=command_get_resource_limits)
+
+    # parser_resources = subparsers.add_parser(
+    #     'update_resource_limits',
+    #     help='Validates and updates the resource limits of a programming assignment part (autograder).'
+    # )
 
     setup_registration_parser(parser_resources)
 

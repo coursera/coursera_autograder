@@ -3,7 +3,8 @@
 __all__ = [
     "upload",
     "grade",
-    "resources",
+    "get_resource_limits",
+    "update_resource_limits",
     "config"
 ]
 

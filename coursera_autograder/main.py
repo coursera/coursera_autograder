@@ -86,8 +86,11 @@ def build_parser():
     # create the parser for the reregister command.
     # commands.reregister.parser(subparsers)
 
-    # create the parser for the current-resources command.
-    commands.resources.parser(subparsers)
+    # create the parser for the get_resource_limits command.
+    commands.get_resource_limits.parser(subparsers)
+
+    # create the parser for the update_resource_limits command.
+    commands.update_resource_limits.parser(subparsers)
 
     return parser
 
