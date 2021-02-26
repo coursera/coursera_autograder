@@ -43,7 +43,9 @@ def command_get_resource_limits(args):
     if result.status_code == 404:
         logging.error(
             '\nUnable to find executor with part id %s in item %s in course %s.\n'
-            'Status Code: 404 \nURL: %s \nResponse: %s\n',
+            'Status Code: 404 \n'
+            'URL: %s \n'
+            'Response: %s\n',
             args.part, 
             args.item, 
             args.course,
@@ -56,7 +58,9 @@ def command_get_resource_limits(args):
             'CourseId: %s\n'
             'ItemId: %s\n'
             'PartId: %s\n'
-            'Status Code: %d \nURL: %s \nResponse: %s\n',
+            'Status Code: %d \n'
+            'URL: %s \n'
+            'Response: %s\n',
             args.course,
             args.item,
             args.part,

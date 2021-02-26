@@ -45,12 +45,12 @@ def command_update_resource_limits(args):
         "wallClockTimeout": int(args.timeout) if args.timeout != None else None
         }
     result = s.post(args.updateGraderResourceLimits_endpoint, params = params, json = body)
-    print ('REQUEST URL: ', result.request.url)
-    print ('REQUEST BODY: ', result.request.body)
     if result.status_code == 404:
         logging.error(
             '\nUnable to find executor with part id %s in item %s in course %s.\n'
-            'Status Code: 404 \nURL: %s \nResponse: %s\n',
+            'Status Code: 404 \n'
+            'URL: %s \n'
+            'Response: %s\n',
             args.part, 
             args.item, 
             args.course,
@@ -63,7 +63,9 @@ def command_update_resource_limits(args):
             'CourseId: %s\n'
             'ItemId: %s\n'
             'PartId: %s\n'
-            'Status Code: %d \nURL: %s \nResponse: %s\n',
+            'Status Code: %d \n'
+            'URL: %s \n'
+            'Response: %s\n',
             args.course,
             args.item,
             args.part,
