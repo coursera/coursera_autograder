@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 2015 Coursera
+# Copyright 2021 Coursera
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ def command_update_resource_limits(args):
     result = s.post(args.updateGraderResourceLimits_endpoint, params = params, json = body)
     if result.status_code == 404:
         logging.error(
-            '\nUnable to find executor with part id %s in item %s in course %s.\n'
+            '\nUnable to find the part or grader with part id %s in item %s in course %s.\n'
             'Status Code: 404 \n'
             'URL: %s \n'
             'Response: %s\n',
@@ -59,7 +59,7 @@ def command_update_resource_limits(args):
         return 1
     elif result.status_code != 200:
         logging.error(
-            '\nUnable to update executor resources.\n'
+            '\nUnable to update grader resources.\n'
             'CourseId: %s\n'
             'ItemId: %s\n'
             'PartId: %s\n'
@@ -75,7 +75,7 @@ def command_update_resource_limits(args):
         )
         return 1
     print(
-        '\nUpdated resource Limits for executor with part id %s in item %s in course %s:\n'
+        '\nUpdated resource Limits for grader with part id %s in item %s in course %s:\n'
         'New Reserved CPU (AWS units -- 1024 units = 1 vCPU): %s (%s vCPUs)\n'
         'New Reserved Memory (MiB): %s\n'
         'New Wall Clock Timeout (s): %s\n' %
@@ -118,7 +118,7 @@ def setup_registration_parser(parser):
     parser.add_argument(
         '--updateGraderResourceLimits-endpoint',
         default = 'https://api.coursera.org/api/authoringProgrammingAssignments.v3/?action=updateGraderResourceLimits',
-        help = 'Override the endpoint used to retrieve information about a certain executor'
+        help = 'Override the endpoint used to retrieve information about a certain grader'
     )
 
     parser.add_argument(
