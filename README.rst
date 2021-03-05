@@ -147,6 +147,43 @@ Examples:
  - ``zip -r PythonGrader.zip .`` (Make sure you are in the directory containing the Dockerfile. This must be the top level directory)
  - ``coursera_autograder upload ./PythonGrader.zip iRl53_BWEeW4_wr--Yv6Aw rLa7F Zb6wb``
 
+get_resource_limits
+^^^^^^^^^^^^^^^^^^^
+
+Allows an instructional team to view the resource limits (vCPU's, MiB, timeout) allocated to the grader for a given programming assignment.
+It requires the instructor to provide the course id, item id, and part id to identify the specific programming assignment. Instructions on 
+how to find these values can be found in the previous section for the ``upload`` command.
+
+Usage:
+ - ``coursera_autograder get_resource_limits $COURSE_OR_BRANCH_ID $ITEM_ID $PART_ID``
+
+update_resource_limits
+^^^^^^^^^^^^^^^^^^^^^^
+
+Allows an instructional team to update the resource limits (vCPU's, MiB, timeout) allocated to the grader for a given programming assignment.
+It requires the instructor to provide the course id, item id, and part id to identify the specific programming assignment. Instructions on 
+how to find these values can be found in the previous section for the ``upload`` command. In addition, the instructor must provide the values
+they wish to update by using the parameter flags
+
+ - ``--grader-cpu`` to update the allocated vCPU's
+ - ``--grader-memory-limit`` to update the memory limit
+ - ``--grader-timeout`` to update the timeout threshold
+
+If a certain parameter is not provided, then we will simply use the previously existing value. Note that there are restrictions on which
+combinations of CPU's and memory values are valid. These restrictions can be found in the ``upload`` section above.
+
+Usage:
+ - ``coursera_autograder update_resource_limits $COURSE_OR_BRANCH_ID $ITEM_ID $PART_ID`` --grader-cpu $CPU --grader-memory-limit $MEMORY --grader-timeout $TIMEOUT
+
+configure
+^^^^^^^^^
+
+Makes sure that the instructor is able to communicate with the coursera.org API servers with the correct authentication.
+
+Usage:
+ - ``coursera_autograder config check-auth``
+ - ``coursera_autograder config display-auth-cache``
+
 
 Bugs / Issues / Feature Requests
 --------------------------------

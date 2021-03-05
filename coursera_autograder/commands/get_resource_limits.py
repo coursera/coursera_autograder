@@ -71,16 +71,14 @@ def command_get_resource_limits(args):
         return 1
     print(
         '\nResource Limits for grader with part id %s in item %s in course %s:\n'
-        'Reserved CPU (AWS units -- 1024 units = 1 vCPU): %s (%s vCPUs)\n'
+        'Reserved CPU (vCPUs): %s\n'
         'Reserved Memory (MiB): %s\n'
         'Wall Clock Timeout (s): %s\n' %
         (args.part,
          args.item,
          args.course,
-         result.json()['reservedCpu'] if 'reservedCpu' in result.json() 
-            else 'Cpu limit not set - default is 1024 AWS units',
          int(result.json()['reservedCpu'])/1024 if 'reservedCpu' in result.json() 
-            else '1 vCPU',
+            else 'Cpu limit not set - default is 1 vCPU',
          result.json()['reservedMemory'] if 'reservedMemory' in result.json() 
             else 'Memory limit not set - default is 4096 MiB',
          result.json()['wallClockTimeout'] if 'wallClockTimeout' in result.json() 

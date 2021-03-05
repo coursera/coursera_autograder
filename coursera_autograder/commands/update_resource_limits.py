@@ -39,8 +39,13 @@ def command_update_resource_limits(args):
     course_branch_item = '%s~%s' % (course_branch_id, args.item)
 
     params = 'id=%s&partId=%s' % (course_branch_item, args.part)
+
+    if args.grader_cpu != None and int(args.grader_cpu) not in {1, 2, 4}:
+        logging.error('Invalid CPU value. Please choose a value of 1, 2, or 4')
+        return 1
+
     body = {
-        "reservedCpu": int(args.grader_cpu) if args.grader_cpu != None else None, 
+        "reservedCpu": int(args.grader_cpu) * 1024 if args.grader_cpu != None else None, 
         "reservedMemory": int(args.grader_memory_limit) if args.grader_memory_limit != None else None, 
         "wallClockTimeout": int(args.grader_timeout) if args.grader_timeout != None else None
         }
@@ -76,16 +81,14 @@ def command_update_resource_limits(args):
         return 1
     print(
         '\nUpdated resource Limits for grader with part id %s in item %s in course %s:\n'
-        'New Reserved CPU (AWS units -- 1024 units = 1 vCPU): %s (%s vCPUs)\n'
+        'New Reserved CPU (vCPUs): %s\n'
         'New Reserved Memory (MiB): %s\n'
         'New Wall Clock Timeout (s): %s\n' %
         (args.part,
          args.item,
          args.course,
-         result.json()['reservedCpu'] if 'reservedCpu' in result.json() 
-            else 'Cpu limit not set - default is 1024 AWS units',
          int(result.json()['reservedCpu'])/1024 if 'reservedCpu' in result.json() 
-            else '1 vCPU',
+            else 'Cpu limit not set - default is 1 vCPU',
          result.json()['reservedMemory'] if 'reservedMemory' in result.json() 
             else 'Memory limit not set - default is 4096 MiB',
          result.json()['wallClockTimeout'] if 'wallClockTimeout' in result.json() 
