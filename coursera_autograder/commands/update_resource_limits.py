@@ -40,9 +40,9 @@ def command_update_resource_limits(args):
 
     params = 'id=%s&partId=%s' % (course_branch_item, args.part)
     body = {
-        "reservedCpu": int(args.cpu) if args.cpu != None else None, 
-        "reservedMemory": int(args.memory) if args.memory != None else None, 
-        "wallClockTimeout": int(args.timeout) if args.timeout != None else None
+        "reservedCpu": int(args.grader_cpu) if args.grader_cpu != None else None, 
+        "reservedMemory": int(args.grader_memory_limit) if args.grader_memory_limit != None else None, 
+        "wallClockTimeout": int(args.grader_timeout) if args.grader_timeout != None else None
         }
     result = s.post(args.updateGraderResourceLimits_endpoint, params = params, json = body)
     if result.status_code == 404:
@@ -122,19 +122,19 @@ def setup_registration_parser(parser):
     )
 
     parser.add_argument(
-        '--cpu',
+        '--grader-cpu',
         default = None,
         help = 'New CPU limit'
     )
 
     parser.add_argument(
-        '--memory',
+        '--grader-memory-limit',
         default = None,
         help = 'New memory limit'
     )
 
     parser.add_argument(
-        '--timeout',
+        '--grader-timeout',
         default = None,
         help = 'New timeout'
     )
