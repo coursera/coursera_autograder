@@ -16,8 +16,8 @@
 
 import argparse
 import docker
-from courseraprogramming import main
-from courseraprogramming.commands import ls
+from coursera_autograder import main
+from coursera_autograder.commands import ls
 from mock import MagicMock
 from mock import patch
 
@@ -41,10 +41,10 @@ def test_ls_parsing_flags():
     assert args.human
 
 
-@patch('courseraprogramming.commands.ls.utils')
+@patch('coursera_autograder.commands.ls.utils')
 def test_ls_run(utils):
 
-    docker_mock = MagicMock(spec=docker.Client)
+    docker_mock = MagicMock(spec=docker.APIClient)
     docker_mock.create_container.return_value = {
         'Id': 'really-long-container-id-hash',
         'Warnings': None
@@ -62,7 +62,7 @@ def test_ls_run(utils):
     args.a = False
     args.no_rm = False
 
-    with patch('courseraprogramming.commands.ls.sys.stdout') as stdout:
+    with patch('coursera_autograder.commands.ls.sys.stdout') as stdout:
         # Run the command
         ls.command_ls(args)
 

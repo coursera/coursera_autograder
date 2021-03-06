@@ -24,8 +24,8 @@ import logging
 import requests
 import sys
 
-from courseraprogramming.commands import common
-from courseraprogramming.commands import oauth2
+from coursera_autograder.commands import common
+from coursera_autograder.commands import oauth2
 
 
 # Program exit codes to indicate what to do next

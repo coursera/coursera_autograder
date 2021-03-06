@@ -21,7 +21,7 @@ You may install it from source, or via pip.
 """
 
 import argparse
-from docker import Client
+from docker import APIClient
 from docker.utils import kwargs_from_env
 import requests
 import logging
@@ -119,13 +119,13 @@ def docker_client(args):
     if _platform == 'linux' or _platform == 'linux2':
         # linux
         if "docker_url" in args:
-            return Client(
+            return APIClient(
                 base_url=args.docker_url,
                 timeout=args.timeout,
                 version='auto')
         else:
             # TODO: test to see if this does the right thing by default.
-            return Client(
+            return APIClient(
                 version='auto',
                 timeout=args.timeout,
                 **kwargs_from_env())
@@ -136,7 +136,7 @@ def docker_client(args):
             kwargs['tls'].assert_hostname = False
 
         try:
-            return Client(version='auto', timeout=args.timeout, **kwargs)
+            return APIClient(version='auto', timeout=args.timeout, **kwargs)
         except:
             logging.error(
                 'Could not connect to the docker daemon. ' +

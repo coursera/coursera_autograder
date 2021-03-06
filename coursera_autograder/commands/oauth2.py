@@ -433,7 +433,7 @@ class CourseraOAuth2(object):
             if new_tokens is None:
                 logging.info(
                     'Attempting to retrieve new tokens from the endpoint. You '
-                    'will be prompted to authorize the courseraprogramming '
+                    'will be prompted to authorize the coursera_autograder '
                     'app in your web browser.')
                 new_tokens = self._authorize_new_tokens()
             logging.debug('New tokens: %s', new_tokens)
@@ -498,7 +498,7 @@ transloadit_bored_api = https://api2.transloadit.com/instances/bored
     cfg.read_file(io.StringIO(defaults))
     cfg.read([
         '/etc/coursera/coursera_autograder.cfg',
-        os.path.expanduser('~/.coursera/courseraprogramming.cfg'),
-        'courseraprogramming.cfg',
+        os.path.expanduser('~/.coursera/coursera_autograder.cfg'),
+        'coursera_autograder.cfg',
     ])
     return cfg

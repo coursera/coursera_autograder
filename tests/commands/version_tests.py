@@ -14,8 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from courseraprogramming import main
-from courseraprogramming.commands import version
+from coursera_autograder import main
+from coursera_autograder.commands import version
 
 
 def test_version_parsing():

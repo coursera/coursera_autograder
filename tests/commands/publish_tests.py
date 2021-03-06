@@ -14,8 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from courseraprogramming import main
-from courseraprogramming.commands import publish
+from coursera_autograder import main
+from coursera_autograder.commands import publish
 
 from mock import ANY
 from mock import call
@@ -104,7 +104,7 @@ def test_multiple_items():
     ])
 
 
-@patch('courseraprogramming.commands.publish.sys')
+@patch('coursera_autograder.commands.publish.sys')
 def test_item_not_found_metadata(sys):
     def fake_get_token_throw(oauth, get_endpoint, authoring_pa_id):
         raise publish.ItemNotFoundError(
@@ -118,7 +118,7 @@ def test_item_not_found_metadata(sys):
     sys.exit.assert_called_with(publish.ErrorCodes.FATAL_ERROR)
 
 
-@patch('courseraprogramming.commands.publish.sys')
+@patch('coursera_autograder.commands.publish.sys')
 def test_internal_error_metadata(sys):
     def fake_get_token_throw(oauth, get_endpoint, authoring_pa_id):
         raise publish.InternalError()
@@ -131,7 +131,7 @@ def test_internal_error_metadata(sys):
     sys.exit.assert_called_with(publish.ErrorCodes.FATAL_ERROR)
 
 
-@patch('courseraprogramming.commands.publish.sys')
+@patch('coursera_autograder.commands.publish.sys')
 def test_failed_validation(sys):
     def fake_publish_item(oauth, endpoint, action, authoring_pa_id, token):
         raise publish.ValidationError()
@@ -145,7 +145,7 @@ def test_failed_validation(sys):
     sys.exit.assert_called_with(publish.ErrorCodes.FATAL_ERROR)
 
 
-@patch('courseraprogramming.commands.publish.sys')
+@patch('coursera_autograder.commands.publish.sys')
 def test_pending_executor(sys):
     def fake_publish_item(oauth, endpoint, action, authoring_pa_id, token):
         raise publish.GraderExecutorError(
@@ -160,7 +160,7 @@ def test_pending_executor(sys):
     sys.exit.assert_called_with(publish.ErrorCodes.RETRYABLE_ERROR)
 
 
-@patch('courseraprogramming.commands.publish.sys')
+@patch('coursera_autograder.commands.publish.sys')
 def test_failed_executor(sys):
     def fake_publish_item(oauth, endpoint, action, authoring_pa_id, token):
         raise publish.GraderExecutorError(
@@ -174,7 +174,7 @@ def test_failed_executor(sys):
     sys.exit.assert_called_with(publish.ErrorCodes.FATAL_ERROR)
 
 
-@patch('courseraprogramming.commands.publish.sys')
+@patch('coursera_autograder.commands.publish.sys')
 def test_missing_executor(sys):
     def fake_publish_item(oauth, endpoint, action, authoring_pa_id, token):
         raise publish.GraderExecutorError(
@@ -188,7 +188,7 @@ def test_missing_executor(sys):
     sys.exit.assert_called_with(publish.ErrorCodes.FATAL_ERROR)
 
 
-@patch('courseraprogramming.commands.publish.sys')
+@patch('coursera_autograder.commands.publish.sys')
 def test_internal_error_publish(sys):
     def fake_publish_item(oauth, endpoint, action, authoring_pa_id, token):
         raise publish.InternalError()
@@ -202,7 +202,7 @@ def test_internal_error_publish(sys):
     sys.exit.assert_called_with(publish.ErrorCodes.FATAL_ERROR)
 
 
-@patch('courseraprogramming.commands.publish.sys')
+@patch('coursera_autograder.commands.publish.sys')
 def test_item_not_found_publish(sys):
     def fake_publish_item(oauth, endpoint, action, authoring_pa_id, token):
         raise publish.ItemNotFoundError(
@@ -216,7 +216,7 @@ def test_item_not_found_publish(sys):
     sys.exit.assert_called_with(publish.ErrorCodes.FATAL_ERROR)
 
 
-@patch('courseraprogramming.commands.publish.sys')
+@patch('coursera_autograder.commands.publish.sys')
 def test_assignment_not_ready_publish(sys):
     def fake_publish_item(oauth, endpoint, action, authoring_pa_id, token):
         raise publish.ProgrammingAssignmentDraftNotReadyError(

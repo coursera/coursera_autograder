@@ -15,8 +15,8 @@
 # limitations under the License.
 
 import argparse
-from courseraprogramming import main
-from courseraprogramming.commands import inspect
+from coursera_autograder import main
+from coursera_autograder.commands import inspect
 from mock import patch
 
 
@@ -28,7 +28,7 @@ def test_inspect_parsing():
     assert not args.no_rm
 
 
-@patch('courseraprogramming.commands.inspect.os')
+@patch('coursera_autograder.commands.inspect.os')
 def test_ls_run(os):
 
     # Set up args
@@ -61,7 +61,7 @@ def test_ls_run(os):
     ])
 
 
-@patch('courseraprogramming.commands.inspect.os')
+@patch('coursera_autograder.commands.inspect.os')
 def test_ls_run_without_limits(os):
 
     # Set up args

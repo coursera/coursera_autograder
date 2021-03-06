@@ -14,8 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from courseraprogramming import main
-from courseraprogramming import utils
+from coursera_autograder import main
+from coursera_autograder import utils
 import logging
 
 # Set up mocking of the `open` call. See http://www.ichimonji10.name/blog/6/

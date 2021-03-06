@@ -16,8 +16,8 @@
 
 import argparse
 import docker
-from courseraprogramming import main
-from courseraprogramming.commands import grade
+from coursera_autograder import main
+from coursera_autograder.commands import grade
 from mock import MagicMock
 from mock import patch
 from testfixtures import LogCapture
@@ -46,7 +46,7 @@ def test_grade_local_parsing_with_extra_args():
     assert args.mem_limit == 2048
 
 
-@patch('courseraprogramming.commands.grade.sys')
+@patch('coursera_autograder.commands.grade.sys')
 def test_check_output_bad_isCorrect(sys):
     with LogCapture() as logs:
         docker_mock = MagicMock()
@@ -72,7 +72,7 @@ def test_check_output_bad_isCorrect(sys):
     sys.exit.assert_called_with(1)
 
 
-@patch('courseraprogramming.commands.grade.sys')
+@patch('coursera_autograder.commands.grade.sys')
 def test_check_output_no_feedback(sys):
     with LogCapture() as logs:
         docker_mock = MagicMock()
@@ -98,7 +98,7 @@ def test_check_output_no_feedback(sys):
     sys.exit.assert_called_with(1)
 
 
-@patch('courseraprogramming.commands.grade.sys')
+@patch('coursera_autograder.commands.grade.sys')
 def test_check_output_fractional_score_boolean(sys):
     with LogCapture() as logs:
         docker_mock = MagicMock()
@@ -124,7 +124,7 @@ def test_check_output_fractional_score_boolean(sys):
     sys.exit.assert_called_with(1)
 
 
-@patch('courseraprogramming.commands.grade.sys')
+@patch('coursera_autograder.commands.grade.sys')
 def test_check_output_fractional_score_string(sys):
     with LogCapture() as logs:
         docker_mock = MagicMock()
@@ -150,7 +150,7 @@ def test_check_output_fractional_score_string(sys):
     sys.exit.assert_called_with(1)
 
 
-@patch('courseraprogramming.commands.grade.sys')
+@patch('coursera_autograder.commands.grade.sys')
 def test_check_output_fractional_score_too_high(sys):
     with LogCapture() as logs:
         docker_mock = MagicMock()
@@ -176,7 +176,7 @@ def test_check_output_fractional_score_too_high(sys):
     sys.exit.assert_called_with(1)
 
 
-@patch('courseraprogramming.commands.grade.sys')
+@patch('coursera_autograder.commands.grade.sys')
 def test_check_output_fractional_score_too_low(sys):
     with LogCapture() as logs:
         docker_mock = MagicMock()
@@ -202,7 +202,7 @@ def test_check_output_fractional_score_too_low(sys):
     sys.exit.assert_called_with(1)
 
 
-@patch('courseraprogramming.commands.grade.sys')
+@patch('coursera_autograder.commands.grade.sys')
 def test_check_output_missing_grade(sys):
     with LogCapture() as logs:
         docker_mock = MagicMock()
@@ -228,7 +228,7 @@ def test_check_output_missing_grade(sys):
     sys.exit.assert_called_with(1)
 
 
-@patch('courseraprogramming.commands.grade.sys')
+@patch('coursera_autograder.commands.grade.sys')
 def test_check_output_malformed_output(sys):
     with LogCapture() as logs:
         docker_mock = MagicMock()
@@ -254,7 +254,7 @@ def test_check_output_malformed_output(sys):
     sys.exit.assert_called_with(1)
 
 
-@patch('courseraprogramming.commands.grade.sys')
+@patch('coursera_autograder.commands.grade.sys')
 def test_check_output_bad_return_code(sys):
     with LogCapture():
         docker_mock = MagicMock()
@@ -275,7 +275,7 @@ def test_check_output_bad_return_code(sys):
     sys.exit.assert_called_with(1)
 
 
-@patch('courseraprogramming.commands.grade.sys')
+@patch('coursera_autograder.commands.grade.sys')
 def test_check_output_good_output_is_correct(sys):
     with LogCapture() as logs:
         docker_mock = MagicMock()
@@ -300,7 +300,7 @@ def test_check_output_good_output_is_correct(sys):
     assert not sys.exit.called, "sys.exit should not be called!"
 
 
-@patch('courseraprogramming.commands.grade.sys')
+@patch('coursera_autograder.commands.grade.sys')
 def test_check_output_good_output_fractional_score(sys):
     with LogCapture() as logs:
         docker_mock = MagicMock()
@@ -325,7 +325,7 @@ def test_check_output_good_output_fractional_score(sys):
     assert not sys.exit.called, "sys.exit should not be called!"
 
 
-@patch('courseraprogramming.commands.grade.sys')
+@patch('coursera_autograder.commands.grade.sys')
 def test_check_output_good_output_fractional_score_one(sys):
     with LogCapture() as logs:
         docker_mock = MagicMock()
@@ -350,7 +350,7 @@ def test_check_output_good_output_fractional_score_one(sys):
     assert not sys.exit.called, "sys.exit should not be called!"
 
 
-@patch('courseraprogramming.commands.grade.sys')
+@patch('coursera_autograder.commands.grade.sys')
 def test_check_output_good_output_fractional_score_one_point_oh(sys):
     with LogCapture() as logs:
         docker_mock = MagicMock()
@@ -375,7 +375,7 @@ def test_check_output_good_output_fractional_score_one_point_oh(sys):
     assert not sys.exit.called, "sys.exit should not be called!"
 
 
-@patch('courseraprogramming.commands.grade.sys')
+@patch('coursera_autograder.commands.grade.sys')
 def test_check_output_good_output_fractional_score_zero(sys):
     with LogCapture() as logs:
         docker_mock = MagicMock()
@@ -400,7 +400,7 @@ def test_check_output_good_output_fractional_score_zero(sys):
     assert not sys.exit.called, "sys.exit should not be called!"
 
 
-@patch('courseraprogramming.commands.grade.sys')
+@patch('coursera_autograder.commands.grade.sys')
 def test_check_output_good_output_fractional_score_zero_point_oh(sys):
     with LogCapture() as logs:
         docker_mock = MagicMock()
@@ -425,10 +425,10 @@ def test_check_output_good_output_fractional_score_zero_point_oh(sys):
     assert not sys.exit.called, "sys.exit should not be called!"
 
 
-@patch('courseraprogramming.commands.grade.common')
-@patch('courseraprogramming.commands.grade.utils')
-@patch('courseraprogramming.commands.grade.run_container')
-@patch('courseraprogramming.commands.grade.docker.utils')
+@patch('coursera_autograder.commands.grade.common')
+@patch('coursera_autograder.commands.grade.utils')
+@patch('coursera_autograder.commands.grade.run_container')
+@patch('coursera_autograder.commands.grade.docker.utils')
 def test_command_local_grade_simple(
         docker_utils,
         run_container,
@@ -468,9 +468,9 @@ def test_command_local_grade_simple(
         args)
 
 
-@patch('courseraprogramming.commands.grade.common')
-@patch('courseraprogramming.commands.grade.utils')
-@patch('courseraprogramming.commands.grade.run_container')
+@patch('coursera_autograder.commands.grade.common')
+@patch('coursera_autograder.commands.grade.utils')
+@patch('coursera_autograder.commands.grade.run_container')
 def test_command_local_grade_with_extra_args(run_container, utils, common):
     args = argparse.Namespace()
     args.dir = '/tmp'

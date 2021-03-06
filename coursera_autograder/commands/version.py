@@ -31,11 +31,11 @@ def command_version(args):
     import os.path
 
     try:
-        _dist = get_distribution('courseraprogramming')
+        _dist = get_distribution('coursera_autograder')
         # Normalize case for Windows systems
         dist_loc = os.path.normcase(_dist.location)
         here = os.path.normcase(__file__)
-        if not here.startswith(os.path.join(dist_loc, 'courseraprogramming')):
+        if not here.startswith(os.path.join(dist_loc, 'coursera_autograder')):
             # not installed, but there is another version that *is*
             raise DistributionNotFound
     except DistributionNotFound:
