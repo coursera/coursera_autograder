@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 2015 Coursera
+# Copyright 2021 Coursera
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,15 +26,8 @@ import logging
 import requests
 import urllib.parse
 
-"""
-target fields:
-  reservedCpu: int?
-  reservedMemory: int?
-  wallClockTimeout: int?
-"""
-
-def command_resources(args):
-    "Implements the resources subcommand"
+def command_get_resource_limits(args):
+    "Implements the get_resource_limits subcommand"
 
     oauth2_instance = oauth2.build_oauth2(args)
     auth = oauth2_instance.build_authorizer()
@@ -49,8 +42,10 @@ def command_resources(args):
     result = s.post(args.getGraderResourceLimits_endpoint, params=params)
     if result.status_code == 404:
         logging.error(
-            '\nUnable to find executor with part id %s in item %s in course %s.\n'
-            'Status Code: 404 \nURL: %s \nResponse: %s\n',
+            '\nUnable to find the part or grader with part id %s in item %s in course %s.\n'
+            'Status Code: 404 \n'
+            'URL: %s \n'
+            'Response: %s\n',
             args.part, 
             args.item, 
             args.course,
@@ -59,11 +54,13 @@ def command_resources(args):
         return 1
     elif result.status_code != 200:
         logging.error(
-            '\nUnable to get executor resources.\n'
+            '\nUnable to get grader resources.\n'
             'CourseId: %s\n'
             'ItemId: %s\n'
             'PartId: %s\n'
-            'Status Code: %d \nURL: %s \nResponse: %s\n',
+            'Status Code: %d \n'
+            'URL: %s \n'
+            'Response: %s\n',
             args.course,
             args.item,
             args.part,
@@ -73,17 +70,15 @@ def command_resources(args):
         )
         return 1
     print(
-        '\nResource Limits for executor with part id %s in item %s in course %s:\n'
-        'Reserved CPU (AWS units -- 1024 units = 1 vCPU): %s (%s vCPUs)\n'
+        '\nResource Limits for grader with part id %s in item %s in course %s:\n'
+        'Reserved CPU (vCPUs): %s\n'
         'Reserved Memory (MiB): %s\n'
         'Wall Clock Timeout (s): %s\n' %
         (args.part,
          args.item,
          args.course,
-         result.json()['reservedCpu'] if 'reservedCpu' in result.json() 
-            else 'Cpu limit not set - default is 1024 AWS units',
          int(result.json()['reservedCpu'])/1024 if 'reservedCpu' in result.json() 
-            else '1 vCPU',
+            else 'Cpu limit not set - default is 1 vCPU',
          result.json()['reservedMemory'] if 'reservedMemory' in result.json() 
             else 'Memory limit not set - default is 4096 MiB',
          result.json()['wallClockTimeout'] if 'wallClockTimeout' in result.json() 
@@ -116,7 +111,7 @@ def setup_registration_parser(parser):
     parser.add_argument(
         '--getGraderResourceLimits-endpoint',
         default='https://api.coursera.org/api/authoringProgrammingAssignments.v3/?action=getGraderResourceLimits',
-        help='Override the endpoint used to retrieve information about a certain executor'
+        help='Override the endpoint used to retrieve information about a certain grader'
     )
 
 
@@ -129,7 +124,7 @@ def parser(subparsers):
         'get_resource_limits',
         help='Gets the current resource limits of a programming assignment \
             part (autograder).')
-    parser_resources.set_defaults(func=command_resources)
+    parser_resources.set_defaults(func=command_get_resource_limits)
 
     setup_registration_parser(parser_resources)
 

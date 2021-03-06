@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 2015 Coursera
+# Copyright 2021 Coursera
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -86,8 +86,11 @@ def build_parser():
     # create the parser for the reregister command.
     # commands.reregister.parser(subparsers)
 
-    # create the parser for the current-resources command.
-    commands.resources.parser(subparsers)
+    # create the parser for the get_resource_limits command.
+    commands.get_resource_limits.parser(subparsers)
+
+    # create the parser for the update_resource_limits command.
+    commands.update_resource_limits.parser(subparsers)
 
     return parser
 
