@@ -14,8 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from courseraprogramming import main
-from courseraprogramming.commands import config
+from coursera_autograder import main
+from coursera_autograder.commands import config
 
 
 def test_config_parsing_check_auth():
