@@ -11,6 +11,7 @@ endeavour. See below for brief descriptions of this tool's capabilities.
 Installation
 ------------
 
+<<<<<<< HEAD
 You can install `coursera_autograder` using pip! Simply run::
 
   python3 -m pip install coursera_autograder
@@ -21,6 +22,13 @@ navigating to the directory where it is installed and running::
   python setup.py develop --uninstall
 
 Alternatively, you may use the following commands to install from source::
+=======
+You can install `coursera_autograder` using pip! Simply run:
+
+  `pip install coursera_autograder`
+
+Alternatively, you may use the following commands to install from source:
+>>>>>>> Fix README and add LICENSE
 
   git clone https://github.com/coursera/coursera_autograder.git
   cd coursera_autograder
@@ -28,7 +36,11 @@ Alternatively, you may use the following commands to install from source::
   source venv/bin/activate (Optional)
   python setup.py develop
   pip install -r test_requirements.txt
+<<<<<<< HEAD
   pip install -e .
+=======
+  pip install -e .  
+>>>>>>> Fix README and add LICENSE
 
 If you would like to separate your build environments, we recommend installing `coursera_autograder` within a virtual environment.
 
