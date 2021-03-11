@@ -21,7 +21,7 @@ from coursera_autograder.commands import grade
 from mock import MagicMock
 from mock import patch
 from testfixtures import LogCapture
-from os import path
+from os import path, remove
 import json
 
 def test_grade_local_parsing():
@@ -79,6 +79,7 @@ def test_check_output_bad_isCorrect(sys, get_feedback):
         ('root', 'DEBUG', "About to remove container: {'Id': 'myimageId'}")
     )
     grade.sys.exit.assert_called_with(1)
+    remove(path.join(args.dst_dir, 'feedback.json'))
 
 
 @patch('coursera_autograder.commands.grade.sys')

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 2015 Coursera
+# Copyright 2021 Coursera
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,42 +22,61 @@ from mock import MagicMock
 from mock import patch
 from nose.tools import nottest
 from testfixtures import LogCapture
+from os import remove
 
 
 def test_upload_parsing():
     parser = main.build_parser()
+
+    zip_file_path = './test.zip'
+    open(zip_file_path, 'w')
+
     args = parser.parse_args(
-               'upload CONTAINER_IMAGE_ID COURSE_ID ITEM_ID PART_ID'.split())
-    assert args.imageId == 'CONTAINER_IMAGE_ID'
+               'upload {} COURSE_ID ITEM_ID PART_ID'.format(zip_file_path).split())
+    assert args.imageZipFile.endswith('test.zip')
     assert args.course == 'COURSE_ID'
     assert args.item == 'ITEM_ID'
     assert args.part == 'PART_ID'
     assert args.additional_item_and_part is None
+    remove(zip_file_path)
 
 
 def test_upload_parsing_with_additional_items():
     parser = main.build_parser()
-    args = parser.parse_args('upload CONTAINER_IMAGE_ID COURSE_ID ITEM_ID '
+
+    zip_file_path = './test.zip'
+    open(zip_file_path, 'w')
+
+    args = parser.parse_args('upload {} COURSE_ID ITEM_ID '
                              'PART_ID '
                              '--additional_item_and_part ITEM_2 PART_2 '
                              '--additional_item_and_part ITEM_3 PART_3'
+                             .format(zip_file_path)
                              .split())
     assert args.additional_item_and_part == [['ITEM_2', 'PART_2'],
                                              ['ITEM_3', 'PART_3']]
 
+    remove(zip_file_path)
+
 
 def test_upload_parsing_with_resource_customization():
     parser = main.build_parser()
-    args = parser.parse_args('upload CONTAINER_IMAGE_ID COURSE_ID ITEM_ID '
+
+    zip_file_path = './test.zip'
+    open(zip_file_path, 'w')
+
+    args = parser.parse_args('upload {} COURSE_ID ITEM_ID '
                              'PART_ID '
                              '--grader-cpu 1 '
-                             '--grader-memory-limit 1024 '
+                             '--grader-memory-limit 4096 '
                              '--grading-timeout 300 '
+                             .format(zip_file_path)
                              .split())
     assert args.grader_cpu == 1
-    assert args.grader_memory_limit == 1024
+    assert args.grader_memory_limit == 4096
     assert args.grading_timeout == 300
 
+    remove(zip_file_path)
 
 @nottest
 def test_upload_parsing_invalid_cpu():
