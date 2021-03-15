@@ -85,7 +85,6 @@ def command_get_resource_limits(args):
             else 'Timeout not set - default is 1200 seconds'))
     return 0
 
-
 def setup_registration_parser(parser): 
     'This is a helper function to coalesce all the common registration'
     'parameters for code reuse.'
