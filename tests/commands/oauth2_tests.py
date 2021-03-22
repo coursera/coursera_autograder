@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from courseraprogramming.commands import oauth2
+from coursera_autograder.commands import oauth2
 
 import argparse
 import pickle

@@ -16,8 +16,8 @@
 
 import argparse
 import docker
-from courseraprogramming import main
-from courseraprogramming.commands import grade
+from coursera_autograder import main
+from coursera_autograder.commands import grade
 from mock import MagicMock
 from mock import patch
 from nose.tools import nottest
