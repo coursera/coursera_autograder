@@ -75,8 +75,8 @@ def command_update_resource_limits(args):
             'CourseId: %s\n'
             'ItemId: %s\n'
             'PartId: %s\n'
-            'Status Code: %d \n'
-            'URL: %s \n'
+            'Status Code: %d\n'
+            'URL: %s\n'
             'Response: %s\n',
             args.course,
             args.item,
