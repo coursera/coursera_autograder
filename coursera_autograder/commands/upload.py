@@ -269,7 +269,7 @@ def command_upload(args):
                                 bucket=upload_information[0],
                                 key=upload_information[1])
 
-    return update_assignments(auth, grader_id, args)
+    return update_assignments(auth, grader_id, args) if (args.item is not None and args.part is not None) else 0
 
 
 def register_grader(auth, args, bucket, key):
@@ -395,12 +395,18 @@ def setup_registration_parser(parser):
 
     parser.add_argument(
         'item',
+        nargs='?',
+        type=str,
+        default=None,
         help='The id of the item to associate the grader. The easiest way '
         'to find the item id is by looking at the URL in the authoring web '
         'interface. It is the last part of the URL, and is a short UUID.')
 
     parser.add_argument(
         'part',
+        nargs='?',
+        type=str,
+        default=None,
         help='The id of the part to associate the grader.')
 
     parser.add_argument(
