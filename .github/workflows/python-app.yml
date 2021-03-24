@@ -24,4 +24,4 @@ jobs:
     - name: Style Check
       run: pep8 coursera_autograder tests
     - name: Unit Tests
-      run: nosetests
+      run: nosetests tests
