@@ -20,7 +20,9 @@ jobs:
       run: |
         pip install .
         pip install -r test_requirements.txt
-    - name: Unit and Style Tests
+    - name: Unit Tests
       run: |
         nosetests
+    - name: Style Check
+      run: |
         pep8 coursera_autograder tests
