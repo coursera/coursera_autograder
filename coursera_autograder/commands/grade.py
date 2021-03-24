@@ -27,7 +27,8 @@ import json
 import logging
 from requests.exceptions import ReadTimeout
 import sys
-import io, tarfile
+import io
+import tarfile
 from os import listdir, path
 
 EXTRA_DOC = """
@@ -38,7 +39,7 @@ outside of Coursera's environment.
 
 
 def get_feedback(docker, container, file_name, dst_dir):
-    raw_stream,status = docker.get_archive(container, "/shared/" + file_name)
+    raw_stream, status = docker.get_archive(container, "/shared/" + file_name)
     tar_archive = io.BytesIO(b"".join((i for i in raw_stream)))
     t = tarfile.open(mode="r", fileobj=tar_archive)
     with open(path.join(dst_dir, file_name), "wb") as f:
@@ -170,7 +171,7 @@ def command_grade_local(args):
         container = d.create_container(
             image=args.containerTag,
             host_config=host_config,
-            environment= environment_variable
+            environment=environment_variable
         )
     except:
         logging.error(

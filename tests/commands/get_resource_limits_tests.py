@@ -37,9 +37,10 @@ def test_get_resource_limits_parsing():
     assert args.item == 'ITEM_ID'
     assert args.part == 'PART_ID'
 
+
 class MockResponse:
 
-    def __init__(self, status_code, url, text, jsonObj = {}):
+    def __init__(self, status_code, url, text, jsonObj={}):
         self.status_code = status_code
         self.url = url
         self.text = text
@@ -49,23 +50,26 @@ class MockResponse:
     def json(self):
         return self.jsonObj
 
+
 @patch('coursera_autograder.commands.get_resource_limits.oauth2')
-@patch.object(requests.Session, 'post', return_value=MockResponse(404, 'endpoint', 'not found!'))
+@patch.object(requests.Session, 'post',
+              return_value=MockResponse(404, 'endpoint', 'not found!'))
 def test_get_resource_limits_error_not_found(mock_oauth, mock_post):
-    with LogCapture() as logs: 
+    with LogCapture() as logs:
         args = argparse.Namespace()
         args.course = 'COURSE_ID'
         args.item = 'ITEM_ID'
         args.part = 'PART_ID'
         args.getGraderResourceLimits_endpoint = 'endpoint'
-    
+
         exit_val = get_resource_limits.command_get_resource_limits(args)
 
     logs.check(
         ('root',
          'ERROR',
          '\n'
-         'Unable to find the part or grader with part id PART_ID in item ITEM_ID in '
+         'Unable to find the part or grader with ' +
+         'part id PART_ID in item ITEM_ID in '
          'course COURSE_ID.\n'
          'Status Code: 404 \n'
          'URL: endpoint \n'
@@ -74,16 +78,18 @@ def test_get_resource_limits_error_not_found(mock_oauth, mock_post):
 
     assert exit_val == 1
 
+
 @patch('coursera_autograder.commands.get_resource_limits.oauth2')
-@patch.object(requests.Session, 'post', return_value=MockResponse(403, 'endpoint', 'not authorized!'))
+@patch.object(requests.Session, 'post',
+              return_value=MockResponse(403, 'endpoint', 'not authorized!'))
 def test_get_resource_limits_error_general(mock_oauth, mock_post):
-    with LogCapture() as logs: 
+    with LogCapture() as logs:
         args = argparse.Namespace()
         args.course = 'COURSE_ID'
         args.item = 'ITEM_ID'
         args.part = 'PART_ID'
         args.getGraderResourceLimits_endpoint = 'endpoint'
-    
+
         exit_val = get_resource_limits.command_get_resource_limits(args)
 
     logs.check(
@@ -106,16 +112,18 @@ data['reservedCpu'] = 1024
 data['reservedMemory'] = 4096
 data['wallClockTimeout'] = 1200
 
+
 @patch('coursera_autograder.commands.get_resource_limits.oauth2')
-@patch.object(requests.Session, 'post', return_value = MockResponse(200, 'endpoint', 'OK', data))
+@patch.object(requests.Session, 'post',
+              return_value=MockResponse(200, 'endpoint', 'OK', data))
 def test_get_resource_limits_ok(mock_oauth, mock_post):
-    with LogCapture() as logs: 
+    with LogCapture() as logs:
         args = argparse.Namespace()
         args.course = 'COURSE_ID'
         args.item = 'ITEM_ID'
         args.part = 'PART_ID'
         args.getGraderResourceLimits_endpoint = 'endpoint'
-    
+
         exit_val = get_resource_limits.command_get_resource_limits(args)
 
     assert exit_val == 0
@@ -124,16 +132,18 @@ defaultData = {}
 defaultData['reservedCpu'] = 4096
 defaultData['reservedMemory'] = 8192
 
+
 @patch('coursera_autograder.commands.get_resource_limits.oauth2')
-@patch.object(requests.Session, 'post', return_value = MockResponse(200, 'endpoint', 'OK', data))
+@patch.object(requests.Session, 'post',
+              return_value=MockResponse(200, 'endpoint', 'OK', data))
 def test_get_resource_limits_ok_default_values(mock_oauth, mock_post):
-    with LogCapture() as logs: 
+    with LogCapture() as logs:
         args = argparse.Namespace()
         args.course = 'COURSE_ID'
         args.item = 'ITEM_ID'
         args.part = 'PART_ID'
         args.getGraderResourceLimits_endpoint = 'endpoint'
-    
+
         exit_val = get_resource_limits.command_get_resource_limits(args)
 
     assert exit_val == 0

@@ -51,6 +51,7 @@ def arg_fq_dir(dirname):
     else:
         return os.path.abspath(os.path.expanduser(dirname))
 
+
 def arg_fq_file(file_name):
     if not os.path.isfile(file_name):
         msg = "%s is not a valid file or is not a zip file" % file_name
@@ -60,6 +61,7 @@ def arg_fq_file(file_name):
         raise argparse.ArgumentTypeError(msg)
     else:
         return os.path.abspath(os.path.expanduser(file_name))
+
 
 def mk_submission_volume_str(fq_local_dir_name):
     "Converts a local fully-qualified path to a docker volume string"

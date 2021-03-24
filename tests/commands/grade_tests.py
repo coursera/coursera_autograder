@@ -24,10 +24,12 @@ from testfixtures import LogCapture
 from os import path, remove
 import json
 
+
 def test_grade_local_parsing():
     # TODO: mock out `os.path.isdir` to make this test more portable.
     parser = main.build_parser()
-    args = parser.parse_args('grade local myContainerTag /tmp {"partId":"1a2b3"}'.split())
+    args = parser.parse_args(
+        'grade local myContainerTag /tmp {"partId":"1a2b3"}'.split())
     assert args.func == grade.command_grade_local
     assert args.containerTag == 'myContainerTag'
     assert args.dir == '/tmp'
@@ -39,7 +41,8 @@ def test_grade_local_parsing():
 def test_grade_local_parsing_no_rm():
     parser = main.build_parser()
     args = parser.parse_args(
-        'grade local --no-rm --mem-limit 2048 myContainerTag /tmp {"partId":"1a2b3"}'.split())
+        ('grade local --no-rm --mem-limit 2048 ' +
+         'myContainerTag /tmp {"partId":"1a2b3"}').split())
     assert args.func == grade.command_grade_local
     assert args.containerTag == 'myContainerTag'
     assert args.dir == '/tmp'
@@ -235,7 +238,7 @@ def test_check_output_fractional_score_too_low(sys, get_feedback):
 
         with open(path.join(args.dst_dir, 'feedback.json'), 'w') as outfile:
             json.dump(data, outfile)
-            
+
         # Run the function under test
         grade.run_container(docker_mock, container, args)
     logs.check(
@@ -329,7 +332,7 @@ def test_check_output_bad_return_code(sys, get_feedback):
 
         with open(path.join(args.dst_dir, 'feedback.json'), 'w') as outfile:
             json.dump(data, outfile)
-        
+
         # Run the function under test
         grade.run_container(docker_mock, container, args)
     grade.sys.exit.assert_called_with(1)
@@ -420,7 +423,7 @@ def test_check_output_good_output_fractional_score_one(sys, get_feedback):
 
         with open(path.join(args.dst_dir, 'feedback.json'), 'w') as outfile:
             json.dump(data, outfile)
-            
+
         # Run the function under test
         grade.run_container(docker_mock, container, args)
     logs.check(
@@ -433,7 +436,7 @@ def test_check_output_good_output_fractional_score_one(sys, get_feedback):
 
 @patch('coursera_autograder.commands.grade.sys')
 @patch('coursera_autograder.commands.grade.get_feedback')
-def test_check_output_good_output_fractional_score_one_point_oh(sys, get_feedback):
+def test_check_good_output_fractional_score_one_point_oh(sys, get_feedback):
     with LogCapture() as logs:
         docker_mock = MagicMock()
         container = {
@@ -452,7 +455,7 @@ def test_check_output_good_output_fractional_score_one_point_oh(sys, get_feedbac
 
         with open(path.join(args.dst_dir, 'feedback.json'), 'w') as outfile:
             json.dump(data, outfile)
-            
+
         # Run the function under test
         grade.run_container(docker_mock, container, args)
     logs.check(
@@ -484,7 +487,7 @@ def test_check_output_good_output_fractional_score_zero(sys, get_feedback):
 
         with open(path.join(args.dst_dir, 'feedback.json'), 'w') as outfile:
             json.dump(data, outfile)
-            
+
         # Run the function under test
         grade.run_container(docker_mock, container, args)
     logs.check(
@@ -497,7 +500,7 @@ def test_check_output_good_output_fractional_score_zero(sys, get_feedback):
 
 @patch('coursera_autograder.commands.grade.sys')
 @patch('coursera_autograder.commands.grade.get_feedback')
-def test_check_output_good_output_fractional_score_zero_point_oh(sys, get_feedback):
+def test_check_good_output_fractional_score_zero_point_oh(sys, get_feedback):
     with LogCapture() as logs:
         docker_mock = MagicMock()
         container = {
@@ -516,7 +519,7 @@ def test_check_output_good_output_fractional_score_zero_point_oh(sys, get_feedba
 
         with open(path.join(args.dst_dir, 'feedback.json'), 'w') as outfile:
             json.dump(data, outfile)
-            
+
         # Run the function under test
         grade.run_container(docker_mock, container, args)
     logs.check(
