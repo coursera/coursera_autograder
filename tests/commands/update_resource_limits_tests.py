@@ -147,10 +147,10 @@ defaultData['reservedCpu'] = 4096
 defaultData['reservedMemory'] = 8192
 
 
-@patch('coursera_autograder.commands.get_resource_limits.oauth2')
+@patch('coursera_autograder.commands.update_resource_limits.oauth2')
 @patch.object(requests.Session, 'post',
               return_value=MockResponse(200, 'endpoint', 'OK', data))
-def test_get_resource_limits_ok_default_values(mock_oauth, mock_post):
+def test_update_resource_limits_ok_default_values(mock_oauth, mock_post):
     with LogCapture() as logs:
         args = argparse.Namespace()
         args.course = 'COURSE_ID'
