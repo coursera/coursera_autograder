@@ -6,7 +6,7 @@ name: Continuous Integration Test
 on: [push]
 
 jobs:
-  test:
+  Style Check and Unit Tests:
 
     runs-on: ubuntu-latest
 
@@ -24,29 +24,7 @@ jobs:
     - name: Style Check
       run: pep8 coursera_autograder tests
     - name: Unit Tests
-      run: |
-        nosetests tests/utils_tests.py
-        echo "Done with util_tests"
-        nosetests tests/commands/config_tests.py
-        echo "Done with config_tests"
-        nosetests tests/commands/get_resource_limits_tests.py
-        echo "Done with get_resource_limits_tests"
-        nosetests tests/commands/grade_tests.py
-        echo "Done with grade_tests"
-        nosetests tests/commands/oauth2_tests.py
-        echo "Done with oauth2_tests"
-        nosetests tests/commands/upload_tests.py
-        echo "Done with upload_tests"
-        nosetests tests/commands/update_resource_limits_tests.py:test_update_resource_limits_parsing
-        echo "parsing"
-        nosetests tests/commands/update_resource_limits_tests.py:test_update_resource_limits_error_not_found
-        echo "not found"
-        nosetests tests/commands/update_resource_limits_tests.py:test_update_resource_limits_error_general
-        echo "error general"
-        nosetests tests/commands/update_resource_limits_tests.py:test_update_resource_limits_ok
-        echo "ok"
-        nosetests tests/commands/update_resource_limits_tests.py:test_update_resource_limits_ok_default_values
-        echo "ok default values"
+      run: nosetests
 
 
 
