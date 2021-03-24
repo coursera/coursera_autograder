@@ -3,12 +3,12 @@
 
 name: Continuous Integration Test
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   test:
 
-    runs-on: ubuntu-latest
+    runs-on: macosx-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -20,9 +20,9 @@ jobs:
       run: |
         pip install .
         pip install -r test_requirements.txt
-    - name: Unit Tests
-      run: |
-        nosetests
     - name: Style Check
       run: |
         pep8 coursera_autograder tests
+    - name: Unit Tests
+      run: |
+        nosetests
