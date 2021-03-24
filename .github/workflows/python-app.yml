@@ -26,4 +26,4 @@ jobs:
     - name: Unit Tests
       run: |
         nosetests tests/utils_tests.py
-        nosetests tests/commands
+        nosetests tests/commands/*_tests.py
