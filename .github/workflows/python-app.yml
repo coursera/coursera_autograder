@@ -6,7 +6,7 @@ name: Continuous Integration Test
 on: [push]
 
 jobs:
-  Style Check and Unit Tests:
+  CI_Test:
 
     runs-on: ubuntu-latest
 
