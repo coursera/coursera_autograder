@@ -8,7 +8,7 @@ on: [push]
 jobs:
   test:
 
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -18,11 +18,10 @@ jobs:
         python-version: 3.7
     - name: Install dependencies
       run: |
-        pip install .
+        python setup.py develop
         pip install -r test_requirements.txt
+        pip install .
     - name: Style Check
-      run: |
-        pep8 coursera_autograder tests
+      run: pep8 coursera_autograder tests
     - name: Unit Tests
-      run: |
-        nosetests
+      run: nosetests
