@@ -35,9 +35,16 @@ jobs:
         echo "Done with grade_tests"
         nosetests tests/commands/oauth2_tests.py
         echo "Done with oauth2_tests"
-        nosetests tests/commands/update_resource_limits_tests.py
-        echo "Done with update_resource_limits_tests"
         nosetests tests/commands/upload_tests.py
         echo "Done with upload_tests"
-
+        nosetests tests/commands/update_resource_limits_tests.py:test_update_resource_limits_parsing
+        echo "parsing"
+        nosetests tests/commands/update_resource_limits_tests.py:test_update_resource_limits_error_not_found
+        echo "not found"
+        nosetests tests/commands/update_resource_limits_tests.py:test_update_resource_limits_error_general
+        echo "error general"
+        nosetests tests/commands/update_resource_limits_tests.py:test_update_resource_limits_ok
+        echo "ok"
+        nosetests tests/commands/update_resource_limits_tests.py:test_update_resource_limits_ok_default_values
+        echo "ok default values"
 
