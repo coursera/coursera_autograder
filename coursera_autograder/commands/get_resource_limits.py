@@ -26,6 +26,7 @@ import logging
 import requests
 import urllib.parse
 
+
 def command_get_resource_limits(args):
     "Implements the get_resource_limits subcommand"
 
@@ -35,19 +36,21 @@ def command_get_resource_limits(args):
     s = requests.Session()
     s.auth = auth
 
-    course_branch_id = args.course.replace("~", "!~") if "authoringBranch" in args.course else args.course
+    course_branch_id = (args.course.replace("~", "!~")
+                        if "authoringBranch" in args.course else args.course)
     course_branch_item = '%s~%s' % (course_branch_id, args.item)
 
     params = 'id=%s&partId=%s' % (course_branch_item, args.part)
     result = s.post(args.getGraderResourceLimits_endpoint, params=params)
     if result.status_code == 404:
         logging.error(
-            '\nUnable to find the part or grader with part id %s in item %s in course %s.\n'
+            '\nUnable to find the part or grader with ' +
+            'part id %s in item %s in course %s.\n'
             'Status Code: 404 \n'
             'URL: %s \n'
             'Response: %s\n',
-            args.part, 
-            args.item, 
+            args.part,
+            args.item,
             args.course,
             result.url,
             result.text)
@@ -70,23 +73,27 @@ def command_get_resource_limits(args):
         )
         return 1
     print(
-        '\nResource Limits for grader with part id %s in item %s in course %s:\n'
+        '\nResource Limits for grader with ' +
+        'part id %s in item %s in course %s:\n'
         'Reserved CPU (vCPUs): %s\n'
         'Reserved Memory (MiB): %s\n'
         'Wall Clock Timeout (s): %s\n' %
         (args.part,
          args.item,
          args.course,
-         int(result.json()['reservedCpu'])/1024 if 'reservedCpu' in result.json() 
-            else 'Cpu limit not set - default is 1 vCPU',
-         result.json()['reservedMemory'] if 'reservedMemory' in result.json() 
-            else 'Memory limit not set - default is 4096 MiB',
-         result.json()['wallClockTimeout'] if 'wallClockTimeout' in result.json() 
-            else 'Timeout not set - default is 1200 seconds'))
+         (int(result.json()['reservedCpu'])/1024
+          if 'reservedCpu' in result.json()
+          else 'Cpu limit not set - default is 1 vCPU'),
+         (result.json()['reservedMemory']
+          if 'reservedMemory' in result.json()
+          else 'Memory limit not set - default is 4096 MiB'),
+         (result.json()['wallClockTimeout']
+          if 'wallClockTimeout' in result.json()
+          else 'Timeout not set - default is 1200 seconds')))
     return 0
 
 
-def setup_registration_parser(parser): 
+def setup_registration_parser(parser):
     'This is a helper function to coalesce all the common registration'
     'parameters for code reuse.'
 
@@ -110,10 +117,10 @@ def setup_registration_parser(parser):
 
     parser.add_argument(
         '--getGraderResourceLimits-endpoint',
-        default='https://api.coursera.org/api/authoringProgrammingAssignments.v3/?action=getGraderResourceLimits',
-        help='Override the endpoint used to retrieve information about a certain grader'
+        default='https://api.coursera.org/api/authoringProgramming' +
+                'Assignments.v3/?action=getGraderResourceLimits',
+        help='Endpoint used to retrieve information about the given grader'
     )
-
 
 
 def parser(subparsers):

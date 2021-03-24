@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 2015 Coursera
+# Copyright 2021 Coursera
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -184,18 +184,20 @@ def poll_transloadit(args, upload_url):
 def validate_memory_based_on_cpu(cpu, memory):
     default_cpu = 1024
     max_memory = 16384
-    memory_limit = list(range(cpu * default_cpu * 2, min(cpu * default_cpu * 8, max_memory), 1024))
+    memory_limit = list(range(cpu * default_cpu * 2,
+                              min(cpu * default_cpu * 8, max_memory), 1024))
     if memory not in memory_limit:
         logging.error('Invalid value on --grader-memory-limit. \n'
-             'Amount of memory you can request for 1 CPU is '
-             'between 2048 MB to 8192 MB. \nFor 2 CPUs is between 4096 MB to 16384 MB.'
-             '\nFor 4 CPUs is between 8192 MB to 16384 MB.\nThe default amount is 2048 MB.')
+                      'Amount of memory you can request for 1 CPU is '
+                      'between 2048 MB to 8192 MB. \nFor 2 CPUs is between ' +
+                      '4096 MB to 16384 MB.\nFor 4 CPUs is between 8192 MB ' +
+                      'to 16384 MB.\nThe default amount is 2048 MB.')
         exit(0)
 
 
 def command_upload(args):
     "Implements the upload subcommand"
-    
+
     validate_memory_based_on_cpu(args.grader_cpu, args.grader_memory_limit)
 
     d = utils.docker_client(args)
@@ -317,7 +319,9 @@ def register_grader(auth, args, bucket, key):
 
 
 def update_assignment(auth, grader_id, args, item, part):
-    course_branch_id = args.course.replace("~", "!~") if "authoringBranch" in args.course else args.course
+    course_branch_id = (args.course.replace("~", "!~")
+                        if "authoringBranch" in args.course else args.course)
+
     update_assignment_params = {
         'action': args.update_part_action,
         'id': '%s~%s' % (course_branch_id, item),
@@ -410,7 +414,7 @@ def setup_registration_parser(parser):
         '--grader-cpu',
         type=int,
         choices=[1, 2, 4],
-        default = 1,
+        default=1,
         help='Amount of CPU your grader is allocated when grading '
              'submissions. You may choose from 1, 2 or 4 full '
              'CPU cores. The default number is 1.')
@@ -419,11 +423,12 @@ def setup_registration_parser(parser):
         '--grader-memory-limit',
         type=int,
         choices=list(range(4096, 16384, 1024)),
-        default = 4096,
+        default=4096,
         help='Amount of memory your grader is allocated when grading '
              'submissions. Amount of memory you can request for 1 CPU is '
-             'between 4096 MB to 8192 MB. For 2 CPUs is between 4096 MB to 16384 MB.'
-             ' For 4 CPUs is between 8192 MB to 16384 MB. The default amount is 4096 MB.')
+             'between 4096 MB to 8192 MB. For 2 CPUs is between 4096 MB to '
+             '16384 MB. For 4 CPUs is between 8192 MB to 16384 MB.'
+             ' The default amount is 4096 MB.')
 
     parser.add_argument(
         '--grading-timeout',
