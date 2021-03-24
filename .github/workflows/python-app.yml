@@ -3,24 +3,28 @@
 
 name: Continuous Integration Test
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
-  test:
+  CI_Test:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
       with:
-        python-version: 3.9
+        python-version: 3.7
     - name: Install dependencies
       run: |
-        pip install .
+        python setup.py develop
         pip install -r test_requirements.txt
-    - name: Unit and Style Tests
-      run: |
-        nosetests
-        pep8 coursera_autograder tests
+        pip install .
+    - name: Style Check
+      run: pep8 coursera_autograder tests
+    - name: Unit Tests
+      run: nosetests
+
+
+
