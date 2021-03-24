@@ -25,5 +25,5 @@ jobs:
       run: pep8 coursera_autograder tests
     - name: Unit Tests
       run: |
-        echo "hello"
         nosetests tests/utils_tests.py
+        nosetests tests/commands
