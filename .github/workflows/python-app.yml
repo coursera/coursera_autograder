@@ -26,4 +26,18 @@ jobs:
     - name: Unit Tests
       run: |
         nosetests tests/utils_tests.py
-        nosetests tests/commands/*_tests.py
+        echo "Done with util_tests"
+        nosetests tests/commands/config_tests.py
+        echo "Done with config_tests"
+        nosetests tests/commands/get_resource_limits_tests.py
+        echo "Done with get_resource_limits_tests"
+        nosetests tests/commands/grade_tests.py
+        echo "Done with grade_tests"
+        nosetests tests/commands/oauth2_tests.py
+        echo "Done with oauth2_tests"
+        nosetests tests/commands/update_resource_limits_tests.py
+        echo "Done with update_resource_limits_tests"
+        nosetests tests/commands/upload_tests.py
+        echo "Done with upload_tests"
+
+
