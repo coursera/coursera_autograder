@@ -24,4 +24,6 @@ jobs:
     - name: Style Check
       run: pep8 coursera_autograder tests
     - name: Unit Tests
-      run: nosetests tests
+      run: |
+        echo "hello"
+        nosetests tests/utils_tests.py
