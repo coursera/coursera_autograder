@@ -8,7 +8,7 @@ on: [push]
 jobs:
   test:
 
-    runs-on: macosx-latest
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v2
