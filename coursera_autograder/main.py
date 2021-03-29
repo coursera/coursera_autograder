@@ -92,6 +92,9 @@ def build_parser():
     # create the parser for the update_resource_limits command.
     commands.update_resource_limits.parser(subparsers)
 
+    # create the parser for the get_status command.
+    commands.get_status.parser(subparsers)
+
     return parser
 
 

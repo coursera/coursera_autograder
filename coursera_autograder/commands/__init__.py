@@ -5,7 +5,8 @@ __all__ = [
     "grade",
     "get_resource_limits",
     "update_resource_limits",
-    "config"
+    "config",
+    "get_status"
 ]
 
 from . import *  # noqa

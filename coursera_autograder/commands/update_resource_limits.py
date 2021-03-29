@@ -42,13 +42,6 @@ def command_update_resource_limits(args):
 
     params = 'id=%s&partId=%s' % (course_branch_item, args.part)
 
-<<<<<<< HEAD
-    if args.grader_cpu is not None and args.grader_cpu not in {'1', '2', '4'}:
-        logging.error('Invalid CPU value. Please choose a value of 1, 2, or 4')
-        return 1
-
-=======
->>>>>>> Item and Part Id optional for upload command
     body = {
         "reservedCpu": (int(args.grader_cpu) * 1024
                         if args.grader_cpu is not None else None),
