@@ -111,8 +111,8 @@ def test_update_resource_limits_error_general(mock_oauth, mock_post):
          'CourseId: COURSE_ID\n'
          'ItemId: ITEM_ID\n'
          'PartId: PART_ID\n'
-         'Status Code: 403 \n'
-         'URL: endpoint \n'
+         'Status Code: 403\n'
+         'URL: endpoint\n'
          'Response: not authorized!\n')
     )
 

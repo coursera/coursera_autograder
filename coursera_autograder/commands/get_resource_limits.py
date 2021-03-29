@@ -37,7 +37,7 @@ def command_get_resource_limits(args):
     s.auth = auth
 
     course_branch_id = (args.course.replace("~", "!~")
-                        if "authoringBranch" in args.course else args.course)
+                        if "authoringBranch~" in args.course else args.course)
     course_branch_item = '%s~%s' % (course_branch_id, args.item)
 
     params = 'id=%s&partId=%s' % (course_branch_item, args.part)

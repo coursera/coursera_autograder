@@ -151,6 +151,7 @@ def setup_registration_parser(parser):
         help='New timeout'
     )
 
+
 def parser(subparsers):
     "Build an argparse argument parser to parse the command line."
 
