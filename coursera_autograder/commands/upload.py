@@ -269,7 +269,11 @@ def command_upload(args):
                                 bucket=upload_information[0],
                                 key=upload_information[1])
 
-    return update_assignments(auth, grader_id, args) if (args.item is not None and args.part is not None) else 0
+    print('Grader id: %s\n' % grader_id)
+
+    return (update_assignments(auth, grader_id, args)
+            if (args.item is not None and args.part is not None)
+            else 0)
 
 
 def register_grader(auth, args, bucket, key):
