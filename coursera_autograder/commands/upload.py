@@ -324,7 +324,7 @@ def register_grader(auth, args, bucket, key):
 
 def update_assignment(auth, grader_id, args, item, part):
     course_branch_id = (args.course.replace("~", "!~")
-                        if "authoringBranch" in args.course else args.course)
+                        if "authoringBranch~" in args.course else args.course)
 
     update_assignment_params = {
         'action': args.update_part_action,

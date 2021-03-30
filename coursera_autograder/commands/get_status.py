@@ -43,7 +43,7 @@ def command_get_status(args):
     result = s.get('%s%s' % (args.getGraderStatus_endpoint, course_grader_id))
     if result.status_code == 404:
         logging.error(
-            '\nUnable to find the grader id %s in course %s.\n'
+            '\nUnable to find grader with id %s in course %s.\n'
             'Status Code: 404 \n'
             'URL: %s \n'
             'Response: %s\n',
