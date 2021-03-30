@@ -183,8 +183,8 @@ configure
 Makes sure that the instructor is able to communicate with the coursera.org API servers with the correct authentication.
 
 Usage:
- - ``coursera_autograder config check-auth``
- - ``coursera_autograder config display-auth-cache``
+ - ``coursera_autograder configure check-auth``
+ - ``coursera_autograder configure display-auth-cache``
 
 
 Bugs / Issues / Feature Requests
