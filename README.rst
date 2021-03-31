@@ -96,15 +96,14 @@ file within that directory contains a refresh token for the user who authorized
 themselves. This refresh token should be treated as if it were a password and
 not shared or otherwise disclosed!
 
-To find the course id, item id, and part id, first go to the web authoring
+To find the course branch id, item id, and part id, first go to the web authoring
 interface for your programming assignment. There, the URL will be of the form:
-``/:courseSlug/author/outline/programming/:itemId/``. The part id will be
-displayed in the authoring user interface for each part. To convert the
-``courseSlug`` into a ``courseId``, you can take advantage of our `Course API` putting in the appropriate ``courseSlug``. For example, given a
-course slug of ``developer-iot``, you can query the course id by making the
-request: ``https://api.coursera.org/api/onDemandCourses.v1?q=slug&slug=developer-iot``.
-The response will be a JSON object containing an ``id`` field with the value:
-``iRl53_BWEeW4_wr--Yv6Aw``.
+``/teach/:courseSlug/:courseBranchId/content/edit/programming/:itemId/``. The part id will be
+displayed in the authoring user interface for each part. 
+
+Note: if your coursera_autograder version is earlier than v0.2.0 and your course branch id has 
+the form `authoringBranch!~id`, make sure to remove the exclamation mark (!) preceding the tilde (~). 
+This is fixed in v0.2.0 and later releases.
 
 The uploaded grader can be linked to multiple (itemId, partId) pairs without making duplicate uploads by using the ``--additional_item_and_part`` flag.
 
@@ -153,7 +152,7 @@ get_resource_limits
 ^^^^^^^^^^^^^^^^^^^
 
 Allows an instructional team to view the resource limits (vCPU's, MiB, timeout) allocated to the grader for a given programming assignment.
-It requires the instructor to provide the course id, item id, and part id to identify the specific programming assignment. Instructions on 
+It requires the instructor to provide the course branch id, item id, and part id to identify the specific programming assignment. Instructions on 
 how to find these values can be found in the previous section for the ``upload`` command.
 
 Usage:
@@ -163,7 +162,7 @@ update_resource_limits
 ^^^^^^^^^^^^^^^^^^^^^^
 
 Allows an instructional team to update the resource limits (vCPU's, MiB, timeout) allocated to the grader for a given programming assignment.
-It requires the instructor to provide the course id, item id, and part id to identify the specific programming assignment. Instructions on 
+It requires the instructor to provide the course branch id, item id, and part id to identify the specific programming assignment. Instructions on 
 how to find these values can be found in the previous section for the ``upload`` command. In addition, the instructor must provide the values
 they wish to update by using the parameter flags
 
