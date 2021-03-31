@@ -32,6 +32,7 @@ def test_config_parsing_check_auth():
     args = parser.parse_args('configure display-auth-cache'.split())
     assert args.func == config.display_auth_cache
 
+
 @patch('coursera_autograder.commands.config.sys.exit')
 def test_config_help_message(exit):
     testargs = ['placeholder', 'configure']
@@ -39,4 +40,4 @@ def test_config_help_message(exit):
         with patch.object(sys, 'argv', testargs):
             parser = main.build_parser()
 
-    config.sys.exit.assert_called_with(1) 
+    config.sys.exit.assert_called_with(1)
