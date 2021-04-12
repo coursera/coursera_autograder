@@ -136,6 +136,7 @@ def setup_registration_parser(parser):
     parser.add_argument(
         '--grader-cpu',
         default=None,
+        choices=['1', '2', '4'],
         help='New CPU limit'
     )
 
