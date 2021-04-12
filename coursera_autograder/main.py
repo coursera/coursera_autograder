@@ -95,6 +95,9 @@ def build_parser():
     # create the parser for the get_status command.
     commands.get_status.parser(subparsers)
 
+    # create the parser for the list command.
+    commands.list.parser(subparsers)
+
     return parser
 
 
