@@ -101,12 +101,12 @@ def setup_registration_parser(parser):
 def parser(subparsers):
     "Build an argparse argument parser to parse the command line."
 
-    # create the parser for the resources command
-    parser_resources = subparsers.add_parser(
+    # create the parser for the get_status command
+    parser_status = subparsers.add_parser(
         'get_status',
         help='Gets the status of an uploaded grader.')
-    parser_resources.set_defaults(func=command_get_status)
+    parser_status.set_defaults(func=command_get_status)
 
-    setup_registration_parser(parser_resources)
+    setup_registration_parser(parser_status)
 
-    return parser_resources
+    return parser_status
