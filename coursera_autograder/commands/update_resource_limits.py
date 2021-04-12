@@ -37,14 +37,10 @@ def command_update_resource_limits(args):
     s.auth = auth
 
     course_branch_id = (args.course.replace("~", "!~")
-                        if "authoringBranch" in args.course else args.course)
+                        if "authoringBranch~" in args.course else args.course)
     course_branch_item = '%s~%s' % (course_branch_id, args.item)
 
     params = 'id=%s&partId=%s' % (course_branch_item, args.part)
-
-    if args.grader_cpu is not None and args.grader_cpu not in {'1', '2', '4'}:
-        logging.error('Invalid CPU value. Please choose a value of 1, 2, or 4')
-        return 1
 
     body = {
         "reservedCpu": (int(args.grader_cpu) * 1024
@@ -75,8 +71,8 @@ def command_update_resource_limits(args):
             'CourseId: %s\n'
             'ItemId: %s\n'
             'PartId: %s\n'
-            'Status Code: %d \n'
-            'URL: %s \n'
+            'Status Code: %d\n'
+            'URL: %s\n'
             'Response: %s\n',
             args.course,
             args.item,
@@ -140,6 +136,7 @@ def setup_registration_parser(parser):
     parser.add_argument(
         '--grader-cpu',
         default=None,
+        choices=['1', '2', '4'],
         help='New CPU limit'
     )
 

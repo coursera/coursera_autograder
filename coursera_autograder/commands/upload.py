@@ -158,7 +158,7 @@ def poll_transloadit(args, upload_url):
             return None
         elif stage == 'ASSEMBLY_COMPLETED':
             if not args.quiet or args.quiet == 1:
-                sys.stdout.write("\rAssembly upload complete.\n")
+                sys.stdout.write("\rAssembly upload complete.\n\n")
                 sys.stdout.flush()
             try:
                 s3_link = body['results'][':original'][0]['ssl_url']
@@ -269,7 +269,11 @@ def command_upload(args):
                                 bucket=upload_information[0],
                                 key=upload_information[1])
 
-    return update_assignments(auth, grader_id, args)
+    print('Grader id: %s\n' % grader_id)
+
+    return (update_assignments(auth, grader_id, args)
+            if (args.item is not None and args.part is not None)
+            else 0)
 
 
 def register_grader(auth, args, bucket, key):
@@ -320,7 +324,7 @@ def register_grader(auth, args, bucket, key):
 
 def update_assignment(auth, grader_id, args, item, part):
     course_branch_id = (args.course.replace("~", "!~")
-                        if "authoringBranch" in args.course else args.course)
+                        if "authoringBranch~" in args.course else args.course)
 
     update_assignment_params = {
         'action': args.update_part_action,
@@ -334,8 +338,11 @@ def update_assignment(auth, grader_id, args, item, part):
         auth=auth)
     if update_result.status_code != 200:
         logging.error(
-            'Unable to update the assignment to use the new grader. Param: %s '
-            'Status Code: %d URL: %s Response: %s',
+            'Unable to update the assignment to use the new grader.\n' +
+            'Param: %s\n' +
+            'Status Code: %d\n' +
+            'URL: %s\n' +
+            'Response: %s\n',
             update_assignment_params,
             update_result.status_code,
             update_result.url,
@@ -344,7 +351,6 @@ def update_assignment(auth, grader_id, args, item, part):
     logging.info('Successfully updated assignment part %s to new executor %s',
                  part,
                  grader_id)
-    logging.info('Please go to the item page and select your grader.')
     return 0
 
 
@@ -363,7 +369,9 @@ def update_assignments(auth, grader_id, args):
                                    part)
         if result != 0:
             logging.error(
-                'Failed to update assignment part %s to new executor %s',
+                'Executor was successfully uploaded, but we were unable ' +
+                'to update assignment part %s to new executor %s. ' +
+                'You may select your grader in the item page',
                 part,
                 grader_id)
             return_result = 1
@@ -395,12 +403,18 @@ def setup_registration_parser(parser):
 
     parser.add_argument(
         'item',
+        nargs='?',
+        type=str,
+        default=None,
         help='The id of the item to associate the grader. The easiest way '
         'to find the item id is by looking at the URL in the authoring web '
         'interface. It is the last part of the URL, and is a short UUID.')
 
     parser.add_argument(
         'part',
+        nargs='?',
+        type=str,
+        default=None,
         help='The id of the part to associate the grader.')
 
     parser.add_argument(
@@ -445,7 +459,7 @@ def setup_registration_parser(parser):
     parser.add_argument(
         '--update-part-endpoint',
         default='https://api.coursera.org/api/'
-                'authoringProgrammingAssignments.v2',
+                'authoringProgrammingAssignments.v3',
         help='Override the endpoint used to update the assignment (draft)')
 
     parser.add_argument(

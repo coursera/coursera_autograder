@@ -27,8 +27,8 @@ import requests
 import urllib.parse
 
 
-def command_get_resource_limits(args):
-    "Implements the get_resource_limits subcommand"
+def command_get_status(args):
+    "Implements the get_status subcommand"
 
     oauth2_instance = oauth2.build_oauth2(args)
     auth = oauth2_instance.build_authorizer()
@@ -38,58 +38,38 @@ def command_get_resource_limits(args):
 
     course_branch_id = (args.course.replace("~", "!~")
                         if "authoringBranch~" in args.course else args.course)
-    course_branch_item = '%s~%s' % (course_branch_id, args.item)
+    course_grader_id = '%s~%s' % (course_branch_id, args.graderId)
 
-    params = 'id=%s&partId=%s' % (course_branch_item, args.part)
-    result = s.post(args.getGraderResourceLimits_endpoint, params=params)
+    result = s.get('%s%s' % (args.getGraderStatus_endpoint, course_grader_id))
     if result.status_code == 404:
         logging.error(
-            '\nUnable to find the part or grader with ' +
-            'part id %s in item %s in course %s.\n'
+            '\nUnable to find grader with id %s in course %s.\n'
             'Status Code: 404 \n'
             'URL: %s \n'
             'Response: %s\n',
-            args.part,
-            args.item,
+            args.graderId,
             args.course,
             result.url,
             result.text)
         return 1
     elif result.status_code != 200:
         logging.error(
-            '\nUnable to get grader resources.\n'
+            '\nUnable to get grader status.\n'
             'CourseId: %s\n'
-            'ItemId: %s\n'
-            'PartId: %s\n'
+            'GraderId: %s\n'
             'Status Code: %d \n'
             'URL: %s \n'
             'Response: %s\n',
             args.course,
-            args.item,
-            args.part,
+            args.graderId,
             result.status_code,
             result.url,
             result.text
         )
         return 1
-    print(
-        '\nResource Limits for grader with ' +
-        'part id %s in item %s in course %s:\n'
-        'Reserved CPU (vCPUs): %s\n'
-        'Reserved Memory (MiB): %s\n'
-        'Wall Clock Timeout (s): %s\n' %
-        (args.part,
-         args.item,
-         args.course,
-         (int(result.json()['reservedCpu'])/1024
-          if 'reservedCpu' in result.json()
-          else 'Cpu limit not set - default is 1 vCPU'),
-         (result.json()['reservedMemory']
-          if 'reservedMemory' in result.json()
-          else 'Memory limit not set - default is 4096 MiB'),
-         (result.json()['wallClockTimeout']
-          if 'wallClockTimeout' in result.json()
-          else 'Timeout not set - default is 1200 seconds')))
+
+    status = result.json()['elements'][0]['status']
+    print('\nGrader status: %s\n' % (status))
     return 0
 
 
@@ -106,20 +86,15 @@ def setup_registration_parser(parser):
         'slug=developer-iot')
 
     parser.add_argument(
-        'item',
-        help='The id of the item associated with the grader. The easiest way '
-        'to find the item id is by looking at the URL in the authoring web '
-        'interface. It is the last part of the URL, and is a short UUID.')
+        'graderId',
+        help='The id associated with the grader. If you just ran the upload '
+        'command, a grader id should have been printed out.'
+    )
 
     parser.add_argument(
-        'part',
-        help='The id of the part associated with the grader.')
-
-    parser.add_argument(
-        '--getGraderResourceLimits-endpoint',
-        default='https://api.coursera.org/api/authoringProgramming' +
-                'Assignments.v3/?action=getGraderResourceLimits',
-        help='Endpoint used to retrieve information about the given grader'
+        '--getGraderStatus-endpoint',
+        default='https://www.coursera.org/api/gridExecutors.v1/',
+        help='Override the endpoint used to retrieve grader status'
     )
 
 
@@ -128,10 +103,9 @@ def parser(subparsers):
 
     # create the parser for the resources command
     parser_resources = subparsers.add_parser(
-        'get_resource_limits',
-        help='Gets the current resource limits of a programming assignment \
-            part (autograder).')
-    parser_resources.set_defaults(func=command_get_resource_limits)
+        'get_status',
+        help='Gets the status of an uploaded grader.')
+    parser_resources.set_defaults(func=command_get_status)
 
     setup_registration_parser(parser_resources)
 
