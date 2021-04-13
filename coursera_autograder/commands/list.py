@@ -36,9 +36,6 @@ def command_list(args):
     s = requests.Session()
     s.auth = auth
 
-    # course_branch_id = (args.course.replace("~", "!~")
-                        # if "authoringBranch~" in args.course else args.course)
-
     result = s.get('%s%s' % (args.listGrader_endpoint, args.course))
     if result.status_code == 404:
         logging.error(
@@ -89,8 +86,10 @@ def setup_registration_parser(parser):
 
     parser.add_argument(
         '--listGrader-endpoint',
-        default='https://www.coursera.org/api/gridExecutors.v1/?q=listByBranch&branchId=',
-        help='Override the endpoint used to list graders associated with the given course'
+        default='https://www.coursera.org/api/gridExecutors.v1/' +
+        '?q=listByBranch&branchId=',
+        help='Override the endpoint used to list graders associated ' +
+        'with the given course'
     )
 
 
