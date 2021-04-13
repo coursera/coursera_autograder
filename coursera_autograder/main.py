@@ -96,7 +96,7 @@ def build_parser():
     commands.get_status.parser(subparsers)
 
     # create the parser for the list command.
-    commands.list.parser(subparsers)
+    commands.list_graders.parser(subparsers)
 
     return parser
 

@@ -27,7 +27,7 @@ import requests
 import urllib.parse
 
 
-def command_list(args):
+def command_list_graders(args):
     "Implements the list subcommand"
 
     oauth2_instance = oauth2.build_oauth2(args)
@@ -39,7 +39,7 @@ def command_list(args):
     result = s.get('%s%s' % (args.listGrader_endpoint, args.course))
     if result.status_code == 404:
         logging.error(
-            '\nUnable to course with id %s.\n'
+            '\nUnable to locate course with id %s.\n'
             'Status Code: 404 \n'
             'URL: %s \n'
             'Response: %s\n',
@@ -97,11 +97,11 @@ def parser(subparsers):
     "Build an argparse argument parser to parse the command line."
 
     # create the parser for the resources command
-    parser_list = subparsers.add_parser(
-        'list',
+    parser_list_graders = subparsers.add_parser(
+        'list_graders',
         help='Lists all graders associated with a given course.')
-    parser_list.set_defaults(func=command_list)
+    parser_list_graders.set_defaults(func=command_list_graders)
 
-    setup_registration_parser(parser_list)
+    setup_registration_parser(parser_list_graders)
 
-    return parser_list
+    return parser_list_graders
