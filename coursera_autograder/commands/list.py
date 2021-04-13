@@ -36,10 +36,10 @@ def command_list(args):
     s = requests.Session()
     s.auth = auth
 
-    course_branch_id = (args.course.replace("~", "!~")
-                        if "authoringBranch~" in args.course else args.course)
+    # course_branch_id = (args.course.replace("~", "!~")
+                        # if "authoringBranch~" in args.course else args.course)
 
-    result = s.get('%s%s' % (args.listGrader_endpoint, course_branch_id))
+    result = s.get('%s%s' % (args.listGrader_endpoint, args.course))
     if result.status_code == 404:
         logging.error(
             '\nUnable to course with id %s.\n'
@@ -65,12 +65,12 @@ def command_list(args):
         return 1
 
     elements = result.json()['elements']
-    print('Graders associated with course id %s:', args.course)
+    print('Graders associated with course id %s:\n' % args.course)
     for element in elements:
-        course_grader_id = element.id
+        course_grader_id = element['id']
         grader = course_grader_id.split('~')[-1]
-        filename = element.filename
-        print('Filename: %s | Grader Id: %s', filename, grader)
+        filename = element['filename']
+        print('Filename: %s\nGraderId: %s\n' % (filename, grader))
 
     return 0
 
