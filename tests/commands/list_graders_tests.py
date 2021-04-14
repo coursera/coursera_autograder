@@ -21,6 +21,7 @@ from coursera_autograder.commands import list_graders
 from mock import patch
 from mock import MagicMock
 from testfixtures import LogCapture
+import json
 
 
 def test_list_graders_parsing():
