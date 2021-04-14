@@ -35,7 +35,7 @@ jobs:
     - name: list_graders_tests not found
       run: nosetests tests/commands/list_graders_tests.py:test_list_graders_error_not_found
     - name: list_graders_tests general
-      run: nosetests tests/commands/list_graders_tests.py:test_list_graders_error_genera
+      run: nosetests tests/commands/list_graders_tests.py:test_list_graders_error_general
     - name: list_graders_tests ok
       run: nosetests tests/commands/list_graders_tests.py:test_list_graders_ok
 
