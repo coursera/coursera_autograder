@@ -70,7 +70,7 @@ def test_list_graders_error_not_found(mock_oauth, mock_post):
 
 @patch('coursera_autograder.commands.list_graders.oauth2')
 @patch.object(requests.Session, 'get',
-              return_value=MockResponse(400, 'endpoint', 'error!'))
+              return_value=MockResponse(403, 'endpoint', 'not authorized!'))
 def test_list_graders_error_general(mock_oauth, mock_post):
     with LogCapture() as logs:
         args = argparse.Namespace()
@@ -85,9 +85,9 @@ def test_list_graders_error_general(mock_oauth, mock_post):
          '\n'
          'Unable to list graders.\n'
          'CourseId: COURSE_ID\n'
-         'Status Code: 400 \n'
+         'Status Code: 403 \n'
          'URL: endpoint \n'
-         'Response: error!\n')
+         'Response: not authorized!\n')
     )
 
     assert exit_val == 1
