@@ -93,7 +93,7 @@ def test_list_graders_error_general(mock_oauth, mock_post):
     assert exit_val == 1
 
 data = {}
-elements = [{'filename': 'grader1.zip', 'id': 'prefix~id~graderid1'}]
+elements = []
 data['elements'] = elements
 
 
