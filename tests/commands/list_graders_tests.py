@@ -48,7 +48,7 @@ class MockResponse:
 @patch('coursera_autograder.commands.list_graders.oauth2')
 @patch.object(requests.Session, 'get',
               return_value=MockResponse(404, 'endpoint', 'not found!'))
-def test_list_graders_error_not_found(mock_oauth, mock_post):
+def test_list_graders_error_not_found(mock_oauth, mock_get):
     with LogCapture() as logs:
         args = argparse.Namespace()
         args.course = 'COURSE_ID'
@@ -72,7 +72,7 @@ def test_list_graders_error_not_found(mock_oauth, mock_post):
 @patch('coursera_autograder.commands.list_graders.oauth2')
 @patch.object(requests.Session, 'get',
               return_value=MockResponse(403, 'endpoint', 'not authorized!'))
-def test_list_graders_error_general(mock_oauth, mock_post):
+def test_list_graders_error_general(mock_oauth, mock_get):
     with LogCapture() as logs:
         args = argparse.Namespace()
         args.course = 'COURSE_ID'
@@ -98,10 +98,10 @@ elements = []
 data['elements'] = elements
 
 
-@patch('coursera_autograder.commands.get_status.oauth2')
+@patch('coursera_autograder.commands.list_graders.oauth2')
 @patch.object(requests.Session, 'get',
               return_value=MockResponse(200, 'endpoint', 'OK', data))
-def test_list_graders_ok(mock_oauth, mock_post):
+def test_list_graders_ok(mock_oauth, mock_get):
     with LogCapture() as logs:
         args = argparse.Namespace()
         args.course = 'COURSE_ID'
