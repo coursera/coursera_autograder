@@ -23,8 +23,23 @@ jobs:
         pip install .
     - name: Style Check
       run: pep8 coursera_autograder tests
-    - name: Unit Tests
-      run: nosetests
+    - name: Unit Tests Except list_graders_tests
+      run: |
+        nosetests tests/commands/config_tests.py
+        nosetests tests/commands/get_resource_limits_tests.py
+        nosetests tests/commands/get_status_tests.py
+        nosetests tests/commands/grade_tests.py
+        nosetests tests/commands/oauth2_tests.py
+        nosetests tests/commands/update_resource_limits_tests.py
+        nosetests tests/commands/upload_tests.py
+    - name: list_graders_tests not found
+      run: nosetests tests/commands/list_graders_tests.py:test_list_graders_error_not_found
+    - name: list_graders_tests general
+      run: nosetests tests/commands/list_graders_tests.py:test_list_graders_error_genera
+    - name: list_graders_tests ok
+      run: nosetests tests/commands/list_graders_tests.py:test_list_graders_ok
+
+
 
 
 
