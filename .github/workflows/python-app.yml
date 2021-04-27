@@ -23,8 +23,24 @@ jobs:
         pip install .
     - name: Style Check
       run: pep8 coursera_autograder tests
-    - name: Unit Tests
-      run: nosetests
+    - name: Unit Tests - configure
+      run: nosetests tests/commands/config_tests.py
+    - name: Unit Tests - get_resource_limits
+      run: nosetests tests/commands/get_resource_limits_tests.py
+    - name: Unit Tests - get_status
+      run: nosetests tests/commands/get_status_tests.py
+    - name: Unit Tests - grade
+      run: nosetests tests/commands/grade_tests.py
+    - name: Unit Tests - oauth2
+      run: nosetests tests/commands/oauth2_tests.py
+    - name: Unit Tests - update_resource_limits
+      run: nosetests tests/commands/update_resource_limits_tests.py
+    - name: Unit Tests - upload
+      run: nosetests tests/commands/upload_tests.py
+    - name: Unit Tests - list_graders
+      run: nosetests tests/commands/list_graders_tests.py
+
+
 
 
 

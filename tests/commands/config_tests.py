@@ -16,6 +16,9 @@
 
 from coursera_autograder import main
 from coursera_autograder.commands import config
+from testfixtures import LogCapture
+import sys
+from mock import patch
 
 
 def test_config_parsing_check_auth():
@@ -28,3 +31,13 @@ def test_config_parsing_check_auth():
     parser = main.build_parser()
     args = parser.parse_args('configure display-auth-cache'.split())
     assert args.func == config.display_auth_cache
+
+
+@patch('coursera_autograder.commands.config.sys.exit')
+def test_config_help_message(exit):
+    testargs = ['placeholder', 'configure']
+    with LogCapture() as logs:
+        with patch.object(sys, 'argv', testargs):
+            parser = main.build_parser()
+
+    config.sys.exit.assert_called_with(1)

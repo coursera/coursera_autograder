@@ -27,8 +27,8 @@ import requests
 import urllib.parse
 
 
-def command_get_status(args):
-    "Implements the get_status subcommand"
+def command_list_graders(args):
+    "Implements the list subcommand"
 
     oauth2_instance = oauth2.build_oauth2(args)
     auth = oauth2_instance.build_authorizer()
@@ -36,40 +36,39 @@ def command_get_status(args):
     s = requests.Session()
     s.auth = auth
 
-    course_branch_id = (args.course.replace("~", "!~")
-                        if "authoringBranch~" in args.course else args.course)
-    course_grader_id = '%s~%s' % (course_branch_id, args.graderId)
-
-    result = s.get('%s%s' % (args.getGraderStatus_endpoint, course_grader_id))
+    result = s.get('%s%s' % (args.listGrader_endpoint, args.course))
     if result.status_code == 404:
         logging.error(
-            '\nUnable to find grader with id %s in course %s.\n'
+            '\nUnable to locate course with id %s.\n'
             'Status Code: 404 \n'
             'URL: %s \n'
             'Response: %s\n',
-            args.graderId,
             args.course,
             result.url,
             result.text)
         return 1
     elif result.status_code != 200:
         logging.error(
-            '\nUnable to get grader status.\n'
+            '\nUnable to list graders.\n'
             'CourseId: %s\n'
-            'GraderId: %s\n'
             'Status Code: %d \n'
             'URL: %s \n'
             'Response: %s\n',
             args.course,
-            args.graderId,
             result.status_code,
             result.url,
             result.text
         )
         return 1
 
-    status = result.json()['elements'][0]['status']
-    print('\nGrader status: %s\n' % (status))
+    elements = result.json()['elements']
+    print('Graders associated with course id %s:\n' % args.course)
+    for element in elements:
+        course_grader_id = element['id']
+        grader = course_grader_id.split('~')[-1]
+        filename = element['filename']
+        print('Filename: %s\nGraderId: %s\n' % (filename, grader))
+
     return 0
 
 
@@ -79,34 +78,30 @@ def setup_registration_parser(parser):
 
     parser.add_argument(
         'course',
-        help='The course id associated with the grader. The course id is a '
+        help='The course id to look up. The course id is a '
         'gibberish string UUID. Given a course slug such as `developer-iot`, '
         'you can retrieve the course id by querying the catalog API. e.g.: '
         'https://api.coursera.org/api/onDemandCourses.v1?q=slug&'
         'slug=developer-iot')
 
     parser.add_argument(
-        'graderId',
-        help='The id associated with the grader. If you just ran the upload '
-        'command, a grader id should have been printed out.'
-    )
-
-    parser.add_argument(
-        '--getGraderStatus-endpoint',
-        default='https://www.coursera.org/api/gridExecutors.v1/',
-        help='Override the endpoint used to retrieve grader status'
+        '--listGrader-endpoint',
+        default='https://www.coursera.org/api/gridExecutors.v1/' +
+        '?q=listByBranch&branchId=',
+        help='Override the endpoint used to list graders associated ' +
+        'with the given course'
     )
 
 
 def parser(subparsers):
     "Build an argparse argument parser to parse the command line."
 
-    # create the parser for the get_status command
-    parser_status = subparsers.add_parser(
-        'get_status',
-        help='Gets the status of an uploaded grader.')
-    parser_status.set_defaults(func=command_get_status)
+    # create the parser for the resources command
+    parser_list_graders = subparsers.add_parser(
+        'list_graders',
+        help='Lists all graders associated with a given course.')
+    parser_list_graders.set_defaults(func=command_list_graders)
 
-    setup_registration_parser(parser_status)
+    setup_registration_parser(parser_list_graders)
 
-    return parser_status
+    return parser_list_graders

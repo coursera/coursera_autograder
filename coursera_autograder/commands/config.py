@@ -116,4 +116,8 @@ def parser(subparsers):
         action='store_true',
         help='Do not truncate the keys [DANGER!!]')
 
+    if len(sys.argv) == 2 and sys.argv[1] == 'configure':
+        parser_config.print_help(sys.stderr)
+        sys.exit(1)
+
     return parser_config

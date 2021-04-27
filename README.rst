@@ -16,7 +16,7 @@ You can install `coursera_autograder` using pip! Simply run::
   python3 -m pip install coursera_autograder
   
 If you've previously installed `coursera_autograder` from source, you can uninstall it by
-navigating to the directory where it is installed an running::
+navigating to the directory where it is installed and running::
 
   python setup.py develop --uninstall
 
@@ -183,8 +183,24 @@ configure
 Makes sure that the instructor is able to communicate with the coursera.org API servers with the correct authentication.
 
 Usage:
- - ``coursera_autograder config check-auth``
- - ``coursera_autograder config display-auth-cache``
+ - ``coursera_autograder configure check-auth``
+ - ``coursera_autograder configure display-auth-cache``
+
+list_graders
+^^^^^^^^^^^^
+
+Lists all graders uploaded to the given course.
+
+Usage:
+  - ``coursera_autograder list_graders $COURSE_ID``
+
+get_status
+^^^^^^^^^^
+
+Gets the upload status of a grader given its executor id. The executor id can be found by using the `list_graders` command.
+
+Usage:
+  - ``coursera_autograder get_status $EXECUTOR_ID``
 
 
 Bugs / Issues / Feature Requests

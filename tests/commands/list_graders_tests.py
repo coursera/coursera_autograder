@@ -17,23 +17,19 @@
 import argparse
 import requests
 from coursera_autograder import main
-from coursera_autograder.commands import get_status
-from mock import MagicMock
+from coursera_autograder.commands import list_graders
 from mock import patch
-from nose.tools import nottest
+from mock import MagicMock
 from testfixtures import LogCapture
-from os import remove
 import json
 
 
-def test_get_status_parsing():
+def test_list_graders_parsing():
     parser = main.build_parser()
 
-    args = parser.parse_args(
-               'get_status COURSE_ID GRADER_ID'.split())
-    assert args.func == get_status.command_get_status
+    args = parser.parse_args('list_graders COURSE_ID'.split())
+    assert args.func == list_graders.command_list_graders
     assert args.course == 'COURSE_ID'
-    assert args.graderId == 'GRADER_ID'
 
 
 class MockResponse:
@@ -49,24 +45,22 @@ class MockResponse:
         return self.jsonObj
 
 
-@patch('coursera_autograder.commands.get_status.oauth2')
+@patch('coursera_autograder.commands.list_graders.oauth2')
 @patch.object(requests.Session, 'get',
               return_value=MockResponse(404, 'endpoint', 'not found!'))
-def test_get_status_error_not_found(mock_oauth, mock_post):
+def test_list_graders_error_not_found(mock_oauth, mock_get):
     with LogCapture() as logs:
         args = argparse.Namespace()
         args.course = 'COURSE_ID'
-        args.graderId = 'GRADER_ID'
-        args.getGraderStatus_endpoint = 'endpoint'
+        args.listGrader_endpoint = 'endpoint'
 
-        exit_val = get_status.command_get_status(args)
+        exit_val = list_graders.command_list_graders(args)
 
     logs.check(
         ('root',
          'ERROR',
          '\n'
-         'Unable to find grader with id GRADER_ID ' +
-         'in course COURSE_ID.\n'
+         'Unable to locate course with id COURSE_ID.\n'
          'Status Code: 404 \n'
          'URL: endpoint \n'
          'Response: not found!\n')
@@ -75,25 +69,23 @@ def test_get_status_error_not_found(mock_oauth, mock_post):
     assert exit_val == 1
 
 
-@patch('coursera_autograder.commands.get_status.oauth2')
+@patch('coursera_autograder.commands.list_graders.oauth2')
 @patch.object(requests.Session, 'get',
               return_value=MockResponse(403, 'endpoint', 'not authorized!'))
-def test_get_status_error_general(mock_oauth, mock_post):
+def test_list_graders_error_general(mock_oauth, mock_get):
     with LogCapture() as logs:
         args = argparse.Namespace()
         args.course = 'COURSE_ID'
-        args.graderId = 'GRADER_ID'
-        args.getGraderStatus_endpoint = 'endpoint'
+        args.listGrader_endpoint = 'endpoint'
 
-        exit_val = get_status.command_get_status(args)
+        exit_val = list_graders.command_list_graders(args)
 
     logs.check(
         ('root',
          'ERROR',
          '\n'
-         'Unable to get grader status.\n'
+         'Unable to list graders.\n'
          'CourseId: COURSE_ID\n'
-         'GraderId: GRADER_ID\n'
          'Status Code: 403 \n'
          'URL: endpoint \n'
          'Response: not authorized!\n')
@@ -102,20 +94,19 @@ def test_get_status_error_general(mock_oauth, mock_post):
     assert exit_val == 1
 
 data = {}
-elements = [{'status': 'COMPLETED'}]
+elements = []
 data['elements'] = elements
 
 
-@patch('coursera_autograder.commands.get_status.oauth2')
+@patch('coursera_autograder.commands.list_graders.oauth2')
 @patch.object(requests.Session, 'get',
               return_value=MockResponse(200, 'endpoint', 'OK', data))
-def test_get_status_ok(mock_oauth, mock_post):
+def test_list_graders_ok(mock_oauth, mock_get):
     with LogCapture() as logs:
         args = argparse.Namespace()
         args.course = 'COURSE_ID'
-        args.graderId = 'GRADER_ID'
-        args.getGraderStatus_endpoint = 'endpoint'
+        args.listGrader_endpoint = 'endpoint'
 
-        exit_val = get_status.command_get_status(args)
+        exit_val = list_graders.command_list_graders(args)
 
     assert exit_val == 0
