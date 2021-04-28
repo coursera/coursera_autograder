@@ -20,7 +20,7 @@ navigating to the directory where it is installed and running::
 
   python setup.py develop --uninstall
 
-Alternatively, you may use the following commands to install from source:
+Alternatively, you may use the following commands to install from source::
 
   git clone https://github.com/coursera/coursera_autograder.git
   cd coursera_autograder
