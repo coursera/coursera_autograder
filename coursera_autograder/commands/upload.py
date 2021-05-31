@@ -200,7 +200,6 @@ def command_upload(args):
 
     validate_memory_based_on_cpu(args.grader_cpu, args.grader_memory_limit)
 
-    d = utils.docker_client(args)
     image = (args.imageZipFile, os.path.basename(args.imageZipFile))
 
     oauth2_instance = oauth2.build_oauth2(args)
