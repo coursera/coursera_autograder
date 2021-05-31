@@ -479,16 +479,6 @@ def parser(subparsers):
     setup_registration_parser(parser_upload)
 
     parser_upload.add_argument(
-        '--temp-dir',
-        default='/tmp',
-        help='Temporary directory to use when exporting the container.')
-
-    parser_upload.add_argument(
-        '--file-name',
-        help='File name to use when saving the docker container image. '
-             'Defaults to the name of the container image.')
-
-    parser_upload.add_argument(
         '--upload-to-requestbin',
         help='Pass the ID of a request bin to debug uploads!')
 
