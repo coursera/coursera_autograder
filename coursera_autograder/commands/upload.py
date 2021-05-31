@@ -200,7 +200,6 @@ def command_upload(args):
 
     validate_memory_based_on_cpu(args.grader_cpu, args.grader_memory_limit)
 
-    d = utils.docker_client(args)
     image = (args.imageZipFile, os.path.basename(args.imageZipFile))
 
     oauth2_instance = oauth2.build_oauth2(args)
@@ -478,16 +477,6 @@ def parser(subparsers):
     parser_upload.set_defaults(func=command_upload)
 
     setup_registration_parser(parser_upload)
-
-    parser_upload.add_argument(
-        '--temp-dir',
-        default='/tmp',
-        help='Temporary directory to use when exporting the container.')
-
-    parser_upload.add_argument(
-        '--file-name',
-        help='File name to use when saving the docker container image. '
-             'Defaults to the name of the container image.')
 
     parser_upload.add_argument(
         '--upload-to-requestbin',
