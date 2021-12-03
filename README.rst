@@ -175,7 +175,7 @@ If a certain parameter is not provided, then we will simply use the previously e
 combinations of CPU's and memory values are valid. These restrictions can be found in the ``upload`` section above.
 
 Usage:
- - ``coursera_autograder update_resource_limits $COURSE_OR_BRANCH_ID $ITEM_ID $PART_ID`` --grader-cpu $CPU --grader-memory-limit $MEMORY --grader-timeout $TIMEOUT
+ - ``coursera_autograder update_resource_limits $COURSE_OR_BRANCH_ID $ITEM_ID $PART_ID --grader-cpu $CPU --grader-memory-limit $MEMORY --grader-timeout $TIMEOUT``
 
 configure
 ^^^^^^^^^
