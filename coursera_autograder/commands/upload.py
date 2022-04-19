@@ -302,14 +302,15 @@ def register_grader(auth, args, bucket, key):
     }
     logging.debug('About to POST data to register endpoint: %s',
                   json.dumps(register_request))
+
     register_result = requests.post(
         args.register_endpoint,
         data=json.dumps(register_request),
         auth=auth)
-
     if register_result.status_code != 201:  # Created
         logging.error(
-            'Failed to register grader (%s) with Coursera.\n Error description: %s',
+            'Failed to register grader (%s) with Coursera.\n ' +
+            'Error description: %s',
             key,
             register_result.text)
         raise Exception('Failed to register grader')
@@ -318,7 +319,7 @@ def register_grader(auth, args, bucket, key):
         grader_id = register_result.json()['elements'][0]['id'].split("~")[-1]
     except:
         logging.exception(
-            'Could not parse the response from the Coursera register grader '
+            'Could not parse the response from the Coursera register grader ' +
             'endpoint: %s',
             register_result.text)
         raise Exception('Cannot parse response')
