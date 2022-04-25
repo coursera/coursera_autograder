@@ -302,6 +302,7 @@ def register_grader(auth, args, bucket, key):
     }
     logging.debug('About to POST data to register endpoint: %s',
                   json.dumps(register_request))
+
     register_result = requests.post(
         args.register_endpoint,
         data=json.dumps(register_request),
@@ -309,6 +310,7 @@ def register_grader(auth, args, bucket, key):
     if register_result.status_code != 201:  # Created
         logging.error(
             'Failed to register grader (%s) with Coursera.\n' +
+
             'Error description: %s',
             key,
             register_result.text)
