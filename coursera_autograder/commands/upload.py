@@ -298,18 +298,17 @@ def register_grader(auth, args, bucket, key):
         'key': key,
         'reservedCpu': grader_cpu,
         'reservedMemory': getattr(args, 'grader_memory_limit', None),
-        'wallClockTimeout': getattr(args, 'grading_timeout', None),
+        'wallClockTimeout': getattr(args, 'grader_timeout', None),
     }
     logging.debug('About to POST data to register endpoint: %s',
                   json.dumps(register_request))
-
     register_result = requests.post(
         args.register_endpoint,
         data=json.dumps(register_request),
         auth=auth)
     if register_result.status_code != 201:  # Created
         logging.error(
-            'Failed to register grader (%s) with Coursera.\n ' +
+            'Failed to register grader (%s) with Coursera.\n' +
             'Error description: %s',
             key,
             register_result.text)
@@ -446,7 +445,7 @@ def setup_registration_parser(parser):
              ' The default amount is 4096 MB.')
 
     parser.add_argument(
-        '--grading-timeout',
+        '--grader-timeout',
         type=int,
         help='Amount of time allowed before your grader times out, in '
              'seconds. The default time is 1200 seconds (20 minutes).')

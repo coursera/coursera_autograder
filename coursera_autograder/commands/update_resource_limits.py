@@ -143,12 +143,14 @@ def setup_registration_parser(parser):
 
     parser.add_argument(
         '--grader-memory-limit',
+        type=int,
         default=None,
         help='New memory limit'
     )
 
     parser.add_argument(
         '--grader-timeout',
+        type=int,
         default=None,
         help='New timeout'
     )
