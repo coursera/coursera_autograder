@@ -50,6 +50,7 @@ def command_update_resource_limits(args):
         "wallClockTimeout": (int(args.grader_timeout)
                              if args.grader_timeout is not None else None)
         }
+
     result = s.post(args.updateGraderResourceLimits_endpoint,
                     params=params, json=body)
     if result.status_code == 404:

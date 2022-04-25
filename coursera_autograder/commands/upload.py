@@ -263,16 +263,21 @@ def command_upload(args):
 
     # Rebuild an authorizer to ensure it's fresh and not expired
     auth = oauth2_instance.build_authorizer()
-    grader_id = register_grader(auth,
-                                args,
-                                bucket=upload_information[0],
-                                key=upload_information[1])
 
-    print('Grader id: %s\n' % grader_id)
+    try:
+        grader_id = register_grader(auth,
+                                    args,
+                                    bucket=upload_information[0],
+                                    key=upload_information[1])
 
-    return (update_assignments(auth, grader_id, args)
-            if (args.item is not None and args.part is not None)
-            else 0)
+        print('Grader id: %s\n' % grader_id)
+
+        return (update_assignments(auth, grader_id, args)
+                if (args.item is not None and args.part is not None)
+                else 0)
+    except:
+        print()
+        return 1
 
 
 def register_grader(auth, args, bucket, key):
@@ -297,14 +302,15 @@ def register_grader(auth, args, bucket, key):
     }
     logging.debug('About to POST data to register endpoint: %s',
                   json.dumps(register_request))
+
     register_result = requests.post(
         args.register_endpoint,
         data=json.dumps(register_request),
         auth=auth)
-
     if register_result.status_code != 201:  # Created
         logging.error(
-            'Failed to register grader (%s) with Coursera: %s',
+            'Failed to register grader (%s) with Coursera.\n ' +
+            'Error description: %s',
             key,
             register_result.text)
         raise Exception('Failed to register grader')
@@ -313,7 +319,7 @@ def register_grader(auth, args, bucket, key):
         grader_id = register_result.json()['elements'][0]['id'].split("~")[-1]
     except:
         logging.exception(
-            'Could not parse the response from the Coursera register grader '
+            'Could not parse the response from the Coursera register grader ' +
             'endpoint: %s',
             register_result.text)
         raise Exception('Cannot parse response')
@@ -382,10 +388,6 @@ def setup_registration_parser(parser):
     'This is a helper function to coalesce all the common registration'
     'parameters for code reuse.'
 
-    # constants for timeout ranges
-    TIMEOUT_LOWER = 300
-    TIMEOUT_UPPER = 1800
-
     parser.add_argument(
         'imageZipFile',
         help='Path to the docker image zip file',
@@ -445,10 +447,9 @@ def setup_registration_parser(parser):
 
     parser.add_argument(
         '--grading-timeout',
-        type=lambda v: utils.check_int_range(v, TIMEOUT_LOWER, TIMEOUT_UPPER),
+        type=int,
         help='Amount of time allowed before your grader times out, in '
-             'seconds. You may choose any value between 300 seconds and 1800 '
-             'seconds.  The default time is 1200 seconds (20 minutes).')
+             'seconds. The default time is 1200 seconds (20 minutes).')
 
     parser.add_argument(
         '--register-endpoint',
