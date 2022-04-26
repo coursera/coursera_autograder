@@ -127,7 +127,7 @@ timeout are all customizable.
    - For 4096 (4 vCPU), Memory needs to be between 8192 (8GB) and 16384 (16GB) in increments of 1024 (1GB)
 
 
- - ``--grading-timeout`` takes a value between 300 and 1800, representing the
+ - ``--grader-timeout`` takes a value between 300 and 1800, representing the
    amount of time the grader is allowed to run before it times out. Note this
    value is counted from the moment the grader starts execution and does not
    include the time it takes Coursera to schedule the grader. The default value

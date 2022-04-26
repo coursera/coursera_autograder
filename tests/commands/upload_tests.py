@@ -68,12 +68,12 @@ def test_upload_parsing_with_resource_customization():
                              'PART_ID '
                              '--grader-cpu 1 '
                              '--grader-memory-limit 4096 '
-                             '--grading-timeout 300 '
+                             '--grader-timeout 300 '
                              .format(zip_file)
                              .split())
     assert args.grader_cpu == 1
     assert args.grader_memory_limit == 4096
-    assert args.grading_timeout == 300
+    assert args.grader_timeout == 300
 
     remove(zip_file)
 
@@ -86,7 +86,7 @@ def test_upload_parsing_invalid_cpu():
                           'PART_ID '
                           '--grader-cpu 3 '
                           '--grader-memory-limit 1024 '
-                          '--grading-timeout 300 '
+                          '--grader-timeout 300 '
                           .split())
     except SystemExit:
         assert True
@@ -102,7 +102,7 @@ def test_upload_parsing_invalid_memory():
                           'PART_ID '
                           '--grader-cpu 1 '
                           '--grader-memory-limit 3 '
-                          '--grading-timeout 300 '
+                          '--grader-timeout 300 '
                           .split())
     except SystemExit:
         assert True
@@ -118,7 +118,7 @@ def test_upload_parsing_timeout_too_low():
                           'PART_ID '
                           '--grader-cpu 1 '
                           '--grader-memory-limit 1024 '
-                          '--grading-timeout 299 '
+                          '--grader-timeout 299 '
                           .split())
     except SystemExit:
         assert True
@@ -134,7 +134,7 @@ def test_upload_parsing_timeout_too_high():
                           'PART_ID '
                           '--grader-cpu 1 '
                           '--grader-memory-limit 1024 '
-                          '--grading-timeout 1801 '
+                          '--grader-timeout 1801 '
                           .split())
     except SystemExit:
         assert True

@@ -39,8 +39,8 @@ def test_update_resource_limits_parsing():
     assert args.item == 'ITEM_ID'
     assert args.part == 'PART_ID'
     assert args.grader_cpu == '4'
-    assert args.grader_memory_limit == '8192'
-    assert args.grader_timeout == '1800'
+    assert args.grader_memory_limit == 8192
+    assert args.grader_timeout == 1800
 
 
 class MockResponse:
