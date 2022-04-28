@@ -13,7 +13,11 @@ Installation
 
 You can install `coursera_autograder` using pip! Simply run::
 
-  python3 -m pip install coursera_autograder
+  python3 -m pip install coursera-autograder
+  
+Upgrade the `coursera_autograder` package by running::
+
+  pip install coursera-autograder --upgrade
   
 If you've previously installed `coursera_autograder` from source, you can uninstall it by
 navigating to the directory where it is installed and running::
