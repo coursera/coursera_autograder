@@ -116,7 +116,7 @@ This command can also be used to customize the resources that will be allocated
 to your grader when it grades learner submissions. The CPU, memory limit and
 timeout are all customizable.
 
- - ``--grader-cpu`` takes a value of 1, 2 or 4, representing the number of cores
+ - ``--grader-cpu`` takes a value of 1, 2 or 4, representing the number of vCPUs.
    the grader will have access to when grading. The default is 1.
  - ``--grader-memory-limit`` takes a value between 4096 to 16384, increnment of 1024. representing the
    amount of memory in MB the grader will have access to when grading. The
