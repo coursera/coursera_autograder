@@ -100,15 +100,27 @@ file within that directory contains a refresh token for the user who authorized
 themselves. This refresh token should be treated as if it were a password and
 not shared or otherwise disclosed!
 
-To find the course id, item id, and part id, first go to the web authoring
-interface for your programming assignment. There, the URL will be of the form:
-``/:courseSlug/author/outline/programming/:itemId/``. The part id will be
-displayed in the authoring user interface for each part. To convert the
-``courseSlug`` into a ``courseId``, you can take advantage of our `Course API` putting in the appropriate ``courseSlug``. For example, given a
-course slug of ``developer-iot``, you can query the course id by making the
-request: ``https://api.coursera.org/api/onDemandCourses.v1?q=slug&slug=developer-iot``.
-The response will be a JSON object containing an ``id`` field with the value:
-``iRl53_BWEeW4_wr--Yv6Aw``.
+To find the course/branch id, item id, and part id:
+
+1. Go to the web authoring interface for your programming assignment. There, the URL will be of the form::
+  
+    /:courseSlug/author/outline/programming/:itemId/
+    
+The ``part id`` can be found in the authoring user interface for each part. 
+
+2. To convert the ``courseSlug`` into a ``courseId``, you can take advantage of our `Course API` putting in the appropriate ``courseSlug``. For example, given a course slug of ``developer-iot``, you can query the course id by making the request::
+
+    https://api.coursera.org/api/onDemandCourses.v1?q=slug&slug=developer-iot
+    
+The response will be a JSON object containing an ``id`` field with the value::
+
+    iRl53_BWEeW4_wr--Yv6Aw
+    
+3. If the grader that you're looking to upload/update is not in the `Original Version` of the course, you'll most likely need to get a branch id. To this, you'll need the ``courseId`` and the ``versionName``. Make the following request::
+
+    https://api.coursera.org/api/authoringBranchProperties.v1?q=course&courseId={course_id}&fields=properties
+    
+Search for your version name (it'll be in the ``properties.name`` field), and find the associated ``id`` (it should look something like: ``authoringBranch~xxxxxxxxxxxxxxxxxxxxxx``.
 
 The uploaded grader can be linked to multiple (itemId, partId) pairs without making duplicate uploads by using the ``--additional_item_and_part`` flag.
 
@@ -131,7 +143,7 @@ timeout are all customizable.
    - For 4096 (4 vCPU), Memory needs to be between 8192 (8GB) and 16384 (16GB) in increments of 1024 (1GB)
 
 
- - ``--grader-timeout`` takes a value between 300 and 1800, representing the
+ - ``--grader-timeout`` takes a value between 300 and 3600, representing the
    amount of time the grader is allowed to run before it times out. Note this
    value is counted from the moment the grader starts execution and does not
    include the time it takes Coursera to schedule the grader. The default value
