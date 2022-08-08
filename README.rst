@@ -120,7 +120,7 @@ The response will be a JSON object containing an ``id`` field with the value::
 
     https://api.coursera.org/api/authoringBranchProperties.v1?q=course&courseId={course_id}&fields=properties
     
-Search for your version name (it'll be in the ``properties.name`` field), and find the associated ``id`` (it should look something like: ``authoringBranch~xxxxxxxxxxxxxxxxxxxxxx``.
+Search for your version name (it'll be in the ``properties.name`` field), and find the associated ``id`` (it should look something like: ``authoringBranch~xxxxxxxxxxxxxxxxxxxxxx``. (Please note that this form of branch id is only applicable for non-original versions of the course. For the original version, the id will be a twenty-two character long string with no prefix).
 
 The uploaded grader can be linked to multiple (itemId, partId) pairs without making duplicate uploads by using the ``--additional_item_and_part`` flag.
 
