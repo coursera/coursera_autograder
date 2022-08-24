@@ -180,6 +180,7 @@ def poll_transloadit(args, upload_url):
                     raise Exception('Error parsing the upload url!')
                 return (match.group(1), match.group(2))
 
+
 def command_upload(args):
     "Implements the upload subcommand"
 
