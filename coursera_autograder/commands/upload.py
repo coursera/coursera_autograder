@@ -181,24 +181,8 @@ def poll_transloadit(args, upload_url):
                 return (match.group(1), match.group(2))
 
 
-def validate_memory_based_on_cpu(cpu, memory):
-    default_cpu = 1024
-    max_memory = 16384
-    memory_limit = list(range(cpu * default_cpu * 2,
-                              min(cpu * default_cpu * 8, max_memory), 1024))
-    if memory not in memory_limit:
-        logging.error('Invalid value on --grader-memory-limit. \n'
-                      'Amount of memory you can request for 1 CPU is '
-                      'between 2048 MB to 8192 MB. \nFor 2 CPUs is between ' +
-                      '4096 MB to 16384 MB.\nFor 4 CPUs is between 8192 MB ' +
-                      'to 16384 MB.\nThe default amount is 2048 MB.')
-        exit(0)
-
-
 def command_upload(args):
     "Implements the upload subcommand"
-
-    validate_memory_based_on_cpu(args.grader_cpu, args.grader_memory_limit)
 
     image = (args.imageZipFile, os.path.basename(args.imageZipFile))
 
@@ -310,7 +294,6 @@ def register_grader(auth, args, bucket, key):
     if register_result.status_code != 201:  # Created
         logging.error(
             'Failed to register grader (%s) with Coursera.\n' +
-
             'Error description: %s',
             key,
             register_result.text)
@@ -438,7 +421,6 @@ def setup_registration_parser(parser):
     parser.add_argument(
         '--grader-memory-limit',
         type=int,
-        choices=list(range(4096, 16384, 1024)),
         default=4096,
         help='Amount of memory your grader is allocated when grading '
              'submissions. Amount of memory you can request for 1 CPU is '

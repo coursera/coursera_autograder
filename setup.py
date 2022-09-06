@@ -7,7 +7,7 @@ def readme():
 
 
 setup(name='coursera_autograder',
-      version='0.1.3',
+      version='0.1.4',
       description='A toolkit to help develop asynchronous graders for Coursera\
           based on docker images.',
       long_description=readme(),
