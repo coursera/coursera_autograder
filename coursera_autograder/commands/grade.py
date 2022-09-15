@@ -22,7 +22,6 @@ way it would run within Coursera's production environment.
 import argparse
 from coursera_autograder.commands import common
 from coursera_autograder import utils
-import docker.utils
 import json
 import logging
 from requests.exceptions import ReadTimeout
@@ -50,7 +49,7 @@ def run_container(docker, container, args):
     "Runs the prepared container (and therefore grader), checking the output"
     docker.start(container)
     try:
-        exit_code = docker.wait(container, timeout=args.timeout)
+        exit_code = docker.wait(container, timeout=args.timeout)['StatusCode']
         get_feedback(docker, container, "feedback.json", args.dst_dir)
     except ReadTimeout:
         logging.error("The grader did not complete within the required "
