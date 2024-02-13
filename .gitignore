@@ -4,3 +4,4 @@ build/
 coursera_autograder.egg-info/
 test.zip
 feedback.json
+.idea/
