@@ -412,7 +412,6 @@ def setup_registration_parser(parser):
     parser.add_argument(
         '--grader-cpu',
         type=int,
-        choices=[1, 2, 4],
         default=1,
         help='Amount of CPU your grader is allocated when grading '
              'submissions. You may choose from 1, 2 or 4 full '
