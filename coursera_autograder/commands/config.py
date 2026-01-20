@@ -33,18 +33,15 @@ def check_auth(args):
     """
     oauth2_instance = oauth2.build_oauth2(args)
     auth = oauth2_instance.build_authorizer()
-    my_profile_url = (
-        'https://api.coursera.org/api/externalBasicProfiles.v1?'
-        'q=me&fields=name'
-    )
-    r = requests.get(my_profile_url, auth=auth)
+
+    r = requests.get('https://www.coursera.org/api/user/info', auth=auth)
     if r.status_code != 200:
-        logging.error('Received response code %s from the basic profile API.',
+        logging.error('Received response code %s from the user info API.',
                       r.status_code)
         logging.debug('Response body:\n%s', r.text)
         sys.exit(1)
     try:
-        external_id = r.json()['elements'][0]['id']
+        external_id = r.json()['external_id']
     except:
         logging.error(
             'Could not parse the external id out of the response body %s',
@@ -52,7 +49,7 @@ def check_auth(args):
         external_id = None
 
     try:
-        name = r.json()['elements'][0]['name']
+        name = r.json()['full_name']
     except:
         logging.error(
             'Could not parse the name out of the response body %s',
