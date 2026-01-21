@@ -34,7 +34,7 @@ def check_auth(args):
     oauth2_instance = oauth2.build_oauth2(args)
     auth = oauth2_instance.build_authorizer()
 
-    r = requests.get('https://www.coursera.org/api/user/info', auth=auth)
+    r = requests.get('https://api.coursera.org/api/user/info', auth=auth)
     if r.status_code != 200:
         logging.error('Received response code %s from the user info API.',
                       r.status_code)
