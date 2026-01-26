@@ -21,47 +21,8 @@ You may install it from source, or via pip.
 """
 
 from coursera_autograder.commands import oauth2
-import requests
-import logging
 import time
 import sys
-
-
-def check_auth(args):
-    """
-    Checks coursera_autograder's connectivity to the coursera.org API servers
-    """
-    oauth2_instance = oauth2.build_oauth2(args)
-    auth = oauth2_instance.build_authorizer()
-
-    r = requests.get('https://api.coursera.org/api/user/info', auth=auth)
-    if r.status_code != 200:
-        logging.error('Received response code %s from the user info API.',
-                      r.status_code)
-        logging.debug('Response body:\n%s', r.text)
-        sys.exit(1)
-    try:
-        external_id = r.json()['external_id']
-    except:
-        logging.error(
-            'Could not parse the external id out of the response body %s',
-            r.text)
-        external_id = None
-
-    try:
-        name = r.json()['full_name']
-    except:
-        logging.error(
-            'Could not parse the name out of the response body %s',
-            r.text)
-        name = None
-
-    if not args.quiet or args.quiet == 0:
-        print('Name: %s' % name)
-        print('External ID: %s' % external_id)
-
-    if name is None or external_id is None:
-        sys.exit(1)
 
 
 def display_auth_cache(args):
@@ -97,12 +58,6 @@ def parser(subparsers):
         'configure',
         help='Configure %(prog)s for operation!')
     config_subparsers = parser_config.add_subparsers()
-
-    # Local subsubcommand of the grade subcommand
-    parser_check_auth = config_subparsers.add_parser(
-        'check-auth',
-        help=check_auth.__doc__)
-    parser_check_auth.set_defaults(func=check_auth)
 
     parser_local_cache = config_subparsers.add_parser(
         'display-auth-cache',

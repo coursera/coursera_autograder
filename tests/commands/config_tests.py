@@ -21,13 +21,7 @@ import sys
 from mock import patch
 
 
-def test_config_parsing_check_auth():
-    parser = main.build_parser()
-    args = parser.parse_args('configure check-auth'.split())
-    assert args.func == config.check_auth
-
-
-def test_config_parsing_check_auth():
+def test_config_parsing_display_auth_cache():
     parser = main.build_parser()
     args = parser.parse_args('configure display-auth-cache'.split())
     assert args.func == config.display_auth_cache
